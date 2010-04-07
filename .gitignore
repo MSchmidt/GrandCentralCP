@@ -1,0 +1,7 @@
+log/*.log
+tmp/**/*
+doc/api
+doc/app
+config/database.yml
+db/*.sqlite3
+config/initializers/session_store.rb
