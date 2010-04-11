@@ -1,11 +1,9 @@
 ActionController::Routing::Routes.draw do |map|
-  #map.devise_for :users, :path_names => { :sign_in => 'login', :sign_out => 'logout' }
+  map.devise_for :users, :path_names => { :sign_in => 'login', :sign_out => 'logout' }
   map.new_user_session 'login', :controller => 'sessions', :action => 'new', :conditions => { :method => :get }
   map.user_session 'login', :controller => 'sessions', :action => 'create', :conditions => { :method => :post }
-  map.destroy_user_session 'logout', :controller => 'sessions', :action => 'destroy'
+  map.destroy_user_session 'logout', :controller => 'sessions', :action => 'destroy', :conditions => { :method => :get }
   
-  map.resources :domains
-
   # The priority is based upon order of creation: first created -> highest priority.
 
   # Sample of regular route:
@@ -38,7 +36,7 @@ ActionController::Routing::Routes.draw do |map|
   #   end
 
   # You can have the root of your site routed with map.root -- just remember to delete public/index.html.
-  map.root :controller => 'domains'
+  # map.root :controller => 'domains'
 
   # See how all your routes lay out with "rake routes"
 
