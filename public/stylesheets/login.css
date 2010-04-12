@@ -1,0 +1,40 @@
+body {
+  background-color: #7a5e2f;
+  background-image: url(../images/gccp_bg.jpg);
+  color: #222; }
+
+#loginfield {
+  width: 550px;
+  height: 400px - 2 * !padding;
+  margin: 150px auto;
+  padding: 25px;
+  background-color: #fff;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -webkit-box-shadow: 0 4px 28px rgba(0, 0, 0, 1);
+  -moz-box-shadow: 0 4px 28px rgba(0, 0, 0, 1); }
+  #loginfield h1, #loginfield h2 {
+    text-align: center; }
+  #loginfield input[type=text], #loginfield input[type=password] {
+    width: 99%; }
+  #loginfield input[type=submit] {
+    padding: 5px 15px 6px;
+    font-size: 12px;
+    font-weight: bold;
+    background-color: #a68236;
+    background-image: url(../images/gccp_button.jpg);
+    background-repeat: repeat-x;
+    border: 1px solid #222;
+    -webkit-border-radius: 4px; }
+    #loginfield input[type=submit]:hover, #loginfield input[type=submit]:focus {
+      cursor: pointer;
+      background-position: -5px; }
+    #loginfield input[type=submit]:active {
+      background-image: none; }
+  #loginfield table {
+    width: 80%;
+    margin: 40px auto; }
+  #loginfield td.label {
+    text-align: right; }
+  #loginfield td.right {
+    text-align: right; }

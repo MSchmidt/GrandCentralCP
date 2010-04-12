@@ -1,0 +1,17 @@
+!!!
+%html
+  %head
+    %meta{:http => 'content-type', :content => 'text/html;charset=UTF-8'}
+    %title GrandCentralCP Login
+    = stylesheet_link_tag 'blueprint/screen'
+    = stylesheet_link_tag 'blueprint/plugins/buttons/screen'
+    = stylesheet_link_tag 'login'
+  %body
+    #loginfield
+      %h1 GrandCentralCP
+      %hr
+      - if flash[:alert]
+        %p{:class => 'error'}= flash[:alert]
+      - if flash[:notice]
+        %p{:class => 'notice'}= flash[:notice]
+      =yield

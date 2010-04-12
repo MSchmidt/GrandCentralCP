@@ -1,0 +1,15 @@
+!!!
+%html
+  %head
+    %meta{:http => 'content-type', :content => 'text/html;charset=UTF-8'}
+    %title= controller.action_name
+    = stylesheet_link_tag 'scaffold'
+  %body
+    - if user_signed_in?
+      = link_to 'logout', destroy_user_session_path
+    - else
+      = link_to 'login', new_user_session_path
+    
+    %p{:style => 'color: green'}= flash[:notice]
+    
+    = yield
