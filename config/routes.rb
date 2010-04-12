@@ -1,9 +1,9 @@
 ActionController::Routing::Routes.draw do |map|
   map.resources :domains
 
-  map.devise_for :users, :controllers => { :sessions => 'sessions' }, :path_names => { :sign_in => 'login', :sign_out => 'logout' }
-  map.new_user_session 'login', :controller => 'sessions', :action => 'new', :conditions => { :method => :get }
-  map.user_session 'login', :controller => 'sessions', :action => 'create', :conditions => { :method => :post }
+  map.devise_for :users, :controllers => { :sessions => 'sessions' }, :path_names => { :sign_in => '', :sign_out => 'logout' }
+  map.new_user_session '', :controller => 'sessions', :action => 'new', :conditions => { :method => :get }
+  map.user_session '', :controller => 'sessions', :action => 'create', :conditions => { :method => :post }
   map.destroy_user_session 'logout', :controller => 'sessions', :action => 'destroy', :conditions => { :method => :get }
   
   # The priority is based upon order of creation: first created -> highest priority.
