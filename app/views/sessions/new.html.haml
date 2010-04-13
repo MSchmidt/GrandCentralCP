@@ -1,0 +1,19 @@
+- form_for resource_name, resource, :url => session_path(resource_name) do |f|
+  %table
+    %tbody
+      %tr
+        %td{:class => 'label'}= f.label :email
+        %td= f.text_field :email, :class => 'title'
+      %tr
+        %td{:class => 'label'}= f.label :password
+        %td= f.password_field :password, :class => 'title'
+      %tr
+        %td
+        %td{:class => 'right'}
+          - if devise_mapping.rememberable?
+            = f.check_box :remember_me
+            = f.label :remember_me
+            &nbsp;&nbsp;|&nbsp;&nbsp;
+          = f.submit 'Sign in!'
+    
+= render :partial => "shared/devise_links"

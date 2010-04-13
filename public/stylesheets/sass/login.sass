@@ -1,0 +1,47 @@
+body
+  background:
+    color: #7a5e2f
+    image: url(../images/gccp_bg.jpg)
+  color: #222
+  
+
+!padding = 25px
+
+#loginfield
+  width = 600px - 2 * !padding
+  height: 400px - 2 * !padding
+  margin: 150px auto
+  padding = !padding
+  background-color: #fff
+  -webkit-border-radius: 10px
+  -moz-border-radius: 10px
+  -webkit-box-shadow: 0 4px 28px rgba(0, 0, 0, 1)
+  -moz-box-shadow: 0 4px 28px rgba(0, 0, 0, 1)
+  h1, h2
+    text-align: center
+  input[type=text], input[type=password]
+    width: 99%
+  input[type=submit]
+    padding: 5px 15px 6px
+    font:
+      size: 12px
+      weight: bold
+    background:
+      color: #a68236
+      image: url(../images/gccp_button.jpg)
+      repeat: repeat-x
+    border: 1px solid #222
+    -webkit-border-radius: 6px
+    -moz-border-radius: 6px
+    &:hover, &:focus
+      cursor: pointer
+      background-position: -5px
+    &:active
+      background-image: none
+  table
+    width: 80%
+    margin: 40px auto
+  td.label
+    text-align: right
+  td.right
+    text-align: right
