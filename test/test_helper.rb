@@ -42,4 +42,6 @@ class ActiveSupport::TestCase
   Webrat.configure do |config|
     config.mode = :rails
   end
+  
+  include Devise::TestHelpers
 end
