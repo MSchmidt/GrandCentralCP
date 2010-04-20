@@ -1,0 +1,19 @@
+<h1>Listing customers</h1>
+
+<table>
+  <tr>
+    <th>E-Mail</th>
+    <th></th>
+  </tr>
+
+<% @users.each do |user| %>
+  <tr>
+    <td><%=h user.email %></td>
+    <td><%= link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Customer', new_user_path %>

@@ -1,5 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
   map.resources :domains
+  map.resources :users
 
   map.devise_for :users, :controllers => { :sessions => 'sessions' }, :path_names => { :sign_in => '', :sign_out => 'logout' }
   map.new_user_session '', :controller => 'sessions', :action => 'new', :conditions => { :method => :get }
