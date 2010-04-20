@@ -35,16 +35,16 @@ class ActiveSupport::TestCase
   #fixtures :all
 
   # Add more helper methods to be used by all tests here...
-
-  require File.dirname(__FILE__) + '/blueprints'
-  require "webrat"
-
-  Webrat.configure do |config|
-    config.mode = :rails
-  end
-  
 end
+
 class ActionController::TestCase
   include Devise::TestHelpers
 end
 
+require "redgreen"
+require File.dirname(__FILE__) + '/blueprints'
+require "webrat"
+
+Webrat.configure do |config|
+  config.mode = :rails
+end
