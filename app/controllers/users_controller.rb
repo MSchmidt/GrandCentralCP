@@ -25,7 +25,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        flash[:notice] = "Customer was successfully created. Please save the generated password: #{@user.password}"
+        flash[:notice] = "User was successfully created. Please save the generated password: #{@user.password}"
         format.html { redirect_to(users_url) }
         format.xml  { render :xml => @user, :status => :created, :location => @user }
       else

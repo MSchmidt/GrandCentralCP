@@ -1,4 +1,4 @@
-<h1>New Customer</h1>
+<h1>New User</h1>
 
 <% form_for(@user) do |f| %>
   <%= f.error_messages %>
@@ -6,6 +6,11 @@
   <p>
     <%= f.label :email %><br />
     <%= f.text_field :email %>
+  </p>
+  <p>
+    <%= f.label :admin %>? : 
+    <%= f.check_box :admin %>
+
   </p>
   <p>
     <%= f.submit 'Create' %>
