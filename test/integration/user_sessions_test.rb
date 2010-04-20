@@ -2,7 +2,7 @@ require 'test_helper'
 
 class UserSessionsTest < ActionController::IntegrationTest
   
-  context "with customer" do
+  context "A customer" do
 		setup do
 			@user = User.make
 		end
@@ -17,7 +17,7 @@ class UserSessionsTest < ActionController::IntegrationTest
       assert_contain 'Signed in successfully.'
 		end
 		
-    should "log in and out" do
+    should "log in and log out" do
       visit root_path
       fill_in "user[email]", :with => @user.email
       fill_in "user[password]", :with => @user.password
