@@ -8,7 +8,7 @@ class UserTest < ActiveSupport::TestCase
   
   context "A User instance" do
     setup do
-      User.make
+      10.times { User.make }
     end
     
     should_validate_uniqueness_of :email

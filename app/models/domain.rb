@@ -5,11 +5,7 @@ class Domain < ActiveRecord::Base
       servername = "mysite.com"
       serveralias = "www." + servername
       
-      vhost_template = read_vhost_template
-      
-      vhost_template.gsub! '%servername%', servername
-      vhost_template.gsub! '%serveralias%', serveralias
-      puts vhost_template
+      vhost_template = ERB.new(read_vhost_template).result(binding)
       
       target_dir = "/Applications/XAMPP/htdocs/ror/GrandCentralCP_testenv/apache2/sites-available"
       Dir.chdir(target_dir)

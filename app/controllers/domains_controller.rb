@@ -44,7 +44,7 @@ class DomainsController < ApplicationController
     @domain = Domain.new(params[:domain])
 
     respond_to do |format|
-      if @domain.save_with_config
+      if @domain.save
         flash[:notice] = 'Domain was successfully created.'
         format.html { redirect_to(@domain) }
         format.xml  { render :xml => @domain, :status => :created, :location => @domain }
