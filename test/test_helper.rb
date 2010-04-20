@@ -43,5 +43,8 @@ class ActiveSupport::TestCase
     config.mode = :rails
   end
   
+end
+class ActionController::TestCase
   include Devise::TestHelpers
 end
+

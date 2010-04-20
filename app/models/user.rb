@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
 
-  devise :authenticatable
+  devise :database_authenticatable
   
   validates_uniqueness_of :email, :case_sensitive => false
   validates_presence_of :email, :password
