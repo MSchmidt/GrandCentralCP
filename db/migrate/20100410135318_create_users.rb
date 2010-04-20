@@ -8,6 +8,7 @@ class CreateUsers < ActiveRecord::Migration
     end
     
     add_index :users, :email, :unique => true
+    add_index :users, :admin
   end
 
   def self.down
