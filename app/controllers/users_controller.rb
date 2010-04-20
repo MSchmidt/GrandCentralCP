@@ -1,7 +1,9 @@
 class UsersController < ApplicationController
   
+  before_filter :is_admin
+  
   def index
-    @users = User.all
+    @users = User.find(:all, :conditions => {:admin => false})
 
     respond_to do |format|
       format.html # index.html.erb
@@ -42,5 +44,11 @@ class UsersController < ApplicationController
       format.xml  { head :ok }
     end
   end
-  
+
+  protected
+  def is_admin
+    unless current_user.admin
+      redirect_to domains_url
+    end
+  end
 end
