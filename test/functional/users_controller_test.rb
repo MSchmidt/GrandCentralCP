@@ -7,7 +7,7 @@ class UsersControllerTest < ActionController::TestCase
 			sign_in User.make(:admin => true)
 		end
 
-		should "go to customers" do
+		should "go to users" do
 			get :index
 			assert_response :success
 		end
@@ -15,14 +15,14 @@ class UsersControllerTest < ActionController::TestCase
 	end
 	
 	
-	context "with logged in customer" do
+	context "with logged in user" do
 		setup do
 			sign_in User.make
 		end
 
-		should "go to customers" do
+		should "go to users" do
 			get :index
-			assert_redirected_to domains_url
+			assert_response :redirect
 		end
 
 	end
