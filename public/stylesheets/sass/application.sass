@@ -1,0 +1,45 @@
+body
+  background:
+    color: #7a5e2f
+    image: url(../images/gccp_bg.jpg)
+  color: #222
+
+!nav_li_width = 120px
+
+#header
+  height: 50px
+  background-color: #000
+  background: -webkit-gradient(linear, left top, left bottom, from(#666), to(#000))
+  background: -moz-linear-gradient(top,  #666,  #000)
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#666666', endColorstr='#000000')
+  ul#top_navigation
+    width = !nav_li_width * 4
+    height: 100%
+    margin: 0 auto
+    padding: 0
+    list-style: none
+    li
+      float: left
+      width = !nav_li_width
+      height: 50px
+      a
+        display: block
+        margin-left: -1px
+        width = !nav_li_width - 1
+        height: 100%
+        line-height: 48px
+        color: #fff
+        font-size: 14px
+        text-decoration: none
+        text-align: center
+        border-left: 1px solid #000
+        border-right: 1px solid #000
+        &:hover
+          background-color: #000
+          background: -webkit-gradient(linear, left top, left bottom, from(#000), to(#666))
+          background: -moz-linear-gradient(top,  #000,  #666)
+          filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#000000', endColorstr='#666666')
+
+#content
+  padding-top: 20px
+  background-color: #fff

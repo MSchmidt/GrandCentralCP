@@ -1,0 +1,42 @@
+body {
+  background-color: #7a5e2f;
+  background-image: url(../images/gccp_bg.jpg);
+  color: #222; }
+
+#header {
+  height: 50px;
+  background-color: #000;
+  background: -webkit-gradient(linear, left top, left bottom, from(#666), to(#000));
+  background: -moz-linear-gradient(top,  #666,  #000);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#666666', endColorstr='#000000'); }
+  #header ul#top_navigation {
+    width: 480px;
+    height: 100%;
+    margin: 0 auto;
+    padding: 0;
+    list-style: none; }
+    #header ul#top_navigation li {
+      float: left;
+      width: 120px;
+      height: 50px; }
+      #header ul#top_navigation li a {
+        display: block;
+        margin-left: -1px;
+        width: 119px;
+        height: 100%;
+        line-height: 48px;
+        color: #fff;
+        font-size: 14px;
+        text-decoration: none;
+        text-align: center;
+        border-left: 1px solid #000;
+        border-right: 1px solid #000; }
+        #header ul#top_navigation li a:hover {
+          background-color: #000;
+          background: -webkit-gradient(linear, left top, left bottom, from(#000), to(#666));
+          background: -moz-linear-gradient(top,  #000,  #666);
+          filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#000000', endColorstr='#666666'); }
+
+#content {
+  padding-top: 20px;
+  background-color: #fff; }
