@@ -1,6 +1,7 @@
 class CreateDomains < ActiveRecord::Migration
   def self.up
     create_table :domains do |t|
+      t.integer :user_id
       t.string :domain
       t.string :folder
 

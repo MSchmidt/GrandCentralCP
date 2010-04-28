@@ -1,4 +1,6 @@
 class Domain < ActiveRecord::Base
+  belongs_to :user
+  
   def save_with_config
     #save
     begin

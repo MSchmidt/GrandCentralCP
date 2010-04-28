@@ -2,6 +2,8 @@ class User < ActiveRecord::Base
 
   devise :database_authenticatable
   
+  has_many :domains
+  
   before_validation :set_default_password_if_needed
   
   validates_uniqueness_of :email, :case_sensitive => false
