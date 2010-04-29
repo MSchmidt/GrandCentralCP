@@ -26,6 +26,7 @@ class DomainsController < ApplicationController
   # GET /domains/new.xml
   def new
     @domain = Domain.new
+    @users = User.all
 
     respond_to do |format|
       format.html # new.html.erb
@@ -36,6 +37,7 @@ class DomainsController < ApplicationController
   # GET /domains/1/edit
   def edit
     @domain = Domain.find(params[:id])
+    @users = User.all
   end
 
   # POST /domains

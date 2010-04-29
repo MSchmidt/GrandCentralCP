@@ -12,6 +12,7 @@
 ActiveRecord::Schema.define(:version => 20100412120216) do
 
   create_table "domains", :force => true do |t|
+    t.integer  "user_id"
     t.string   "domain"
     t.string   "folder"
     t.datetime "created_at"

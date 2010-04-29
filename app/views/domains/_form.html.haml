@@ -1,0 +1,14 @@
+= f.error_messages
+
+%p
+  = f.label :domain
+  %br/
+  = f.text_field :domain, :class => 'title'
+%p
+  = label_tag :user_id
+  %br/
+  = f.collection_select :user_id, @users, :id, :email, {:prompt => true}
+%p
+  = f.label :folder
+  %br/
+  = f.text_field :folder

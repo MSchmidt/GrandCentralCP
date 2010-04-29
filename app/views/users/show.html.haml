@@ -1,0 +1,8 @@
+%h1 User: #{@user.email}
+  
+%h2 Domains:
+%div
+  - @user.domains.each do |domain|
+    %p= domain.domain
+  
+= link_to "add a new domain", new_domain_path
