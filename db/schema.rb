@@ -9,7 +9,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100412120216) do
+ActiveRecord::Schema.define(:version => 20100429144733) do
+
+  create_table "databases", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "domains", :force => true do |t|
     t.integer  "user_id"
@@ -24,6 +31,7 @@ ActiveRecord::Schema.define(:version => 20100412120216) do
     t.string   "encrypted_password", :limit => 128, :default => "",    :null => false
     t.string   "password_salt",                     :default => "",    :null => false
     t.boolean  "admin",                             :default => false, :null => false
+    t.string   "dbpassword"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -6,3 +6,13 @@
     %p= domain.domain
   
 = link_to "add a new domain", new_domain_path
+
+%p
+  &nbsp;
+  
+%h2 Databases:
+%div
+  - @user.databases.each do |db|
+    %p= db.name
+  
+= link_to "add a new database", new_database_path
