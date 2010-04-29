@@ -1,0 +1,9 @@
+%h1 Editing database
+
+- form_for(@database) do |f|
+  = render 'form', { :f => f }
+  %p= f.submit 'Update'
+
+= link_to 'Show', @database
+|
+= link_to 'Back', databases_path

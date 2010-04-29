@@ -3,8 +3,13 @@ class DomainsController < ApplicationController
   # GET /domains
   # GET /domains.xml
   def index
-    @domains = Domain.all
-
+    
+    if current_user.admin
+      @domains = Domain.all
+    else
+      @domains = Database.find(:all, :conditions => {:user_id => current_user.id})
+    end
+    
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @domains }

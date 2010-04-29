@@ -1,0 +1,11 @@
+<p>
+  <b>Name:</b>
+  <%=h @database.name %>
+</p>
+<p>
+  <b>User:</b>
+  <%=h @database.user.email %>
+</p>
+
+<%= link_to 'Edit', edit_database_path(@database) %> |
+<%= link_to 'Back', databases_path %>
