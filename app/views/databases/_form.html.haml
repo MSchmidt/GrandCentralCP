@@ -4,7 +4,11 @@
   = f.label :name
   %br/
   = f.text_field :name, :class => 'title'
-%p
-  = label_tag :user_id
-  %br/
-  = f.collection_select :user_id, @users, :id, :email, {:prompt => true}
+
+- if current_user.admin
+  %p
+    = label_tag :user_id
+    %br/
+    = f.collection_select :user_id, @users, :id, :email, {:prompt => true}
+- else
+  = f.hidden_field :user_id, :value => current_user.id

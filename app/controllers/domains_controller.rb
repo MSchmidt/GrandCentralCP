@@ -7,7 +7,7 @@ class DomainsController < ApplicationController
     if current_user.admin
       @domains = Domain.all
     else
-      @domains = Database.find(:all, :conditions => {:user_id => current_user.id})
+      @domains = Domain.find(:all, :conditions => {:user_id => current_user.id})
     end
     
     respond_to do |format|

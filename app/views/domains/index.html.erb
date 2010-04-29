@@ -4,14 +4,14 @@
   <tr>
     <th>Domain</th>
     <th>Folder</th>
-    <th>User</th>
+    <th><%= 'User' if current_user.admin %></th>
   </tr>
 
 <% @domains.each do |domain| %>
   <tr>
     <td><%=h domain.domain %></td>
     <td><%=h domain.folder %></td>
-    <td><%=h domain.user.email %></td>
+    <td><%=h domain.user.email if current_user.admin %></td>
     <td><%= link_to 'Show', domain %></td>
     <td><%= link_to 'Edit', edit_domain_path(domain) %></td>
     <td><%= link_to 'Destroy', domain, :confirm => 'Are you sure?', :method => :delete %></td>
