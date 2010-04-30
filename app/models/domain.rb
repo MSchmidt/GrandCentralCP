@@ -1,6 +1,9 @@
 class Domain < ActiveRecord::Base
   belongs_to :user
   
+  validates_length_of :domain, :minimum => 4
+  validates_presence_of :user_id
+  
   def save_with_config
     #save
     begin

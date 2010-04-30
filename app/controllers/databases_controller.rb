@@ -55,6 +55,7 @@ class DatabasesController < ApplicationController
         format.html { redirect_to(@database) }
         format.xml  { render :xml => @database, :status => :created, :location => @database }
       else
+        @users = User.all
         format.html { render :action => "new" }
         format.xml  { render :xml => @database.errors, :status => :unprocessable_entity }
       end

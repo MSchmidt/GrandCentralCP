@@ -56,6 +56,7 @@ class DomainsController < ApplicationController
         format.html { redirect_to(@domain) }
         format.xml  { render :xml => @domain, :status => :created, :location => @domain }
       else
+        @users = User.all
         format.html { render :action => "new" }
         format.xml  { render :xml => @domain.errors, :status => :unprocessable_entity }
       end
@@ -73,6 +74,7 @@ class DomainsController < ApplicationController
         format.html { redirect_to(@domain) }
         format.xml  { head :ok }
       else
+        @users = User.all
         format.html { render :action => "edit" }
         format.xml  { render :xml => @domain.errors, :status => :unprocessable_entity }
       end
