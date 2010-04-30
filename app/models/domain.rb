@@ -8,14 +8,16 @@ class Domain < ActiveRecord::Base
   def save_with_config
     #save
     begin
-      servername = "mysite.com"
+      servername = self.domain
       serveralias = "www." + servername
+      email = self.user.email
+      folder = self.folder
       
       vhost_template = ERB.new(read_vhost_template).result(binding)
       
       Dir.chdir(TARGET_DIR) #definend in config\initializers\paths.rb
       puts Dir.pwd
-      File.open("domain.txt", "w") do |f|
+      File.open(self.domain, "w") do |f|
         f.write(vhost_template)
       end
     rescue Errno::ENOENT
