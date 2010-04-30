@@ -1,0 +1,2 @@
+PATH1 = '/Applications/XAMPP/htdocs/ror/GrandCentralCP_testenv/apache2/sites-available'
+PATH2 = '/app/templates/apache2_vhost.conf'

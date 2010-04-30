@@ -13,8 +13,7 @@ class Domain < ActiveRecord::Base
       
       vhost_template = ERB.new(read_vhost_template).result(binding)
       
-      target_dir = "/Applications/XAMPP/htdocs/ror/GrandCentralCP_testenv/apache2/sites-available"
-      Dir.chdir(target_dir)
+      Dir.chdir(TARGET_DIR) #definend in config\initializers\paths.rb
       puts Dir.pwd
       File.open("domain.txt", "w") do |f|
         f.write(vhost_template)
@@ -25,7 +24,6 @@ class Domain < ActiveRecord::Base
   end
   
   def read_vhost_template
-    template_file = RAILS_ROOT + '/app/templates/apache2_vhost.conf'
-    IO.read(template_file)
+    IO.read(TEMPLATE_FILE) #definend in config\initializers\paths.rb
   end
 end
