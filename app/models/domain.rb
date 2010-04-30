@@ -3,6 +3,7 @@ class Domain < ActiveRecord::Base
   
   validates_length_of :domain, :minimum => 4
   validates_presence_of :user_id
+  validates_uniqueness_of :domain
   
   def save_with_config
     #save

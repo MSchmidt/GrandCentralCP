@@ -1,45 +1,68 @@
 require 'test_helper'
 
 class DomainsControllerTest < ActionController::TestCase
-  test "should get index" do
-    get :index
-    assert_response :success
-    assert_not_nil assigns(:domains)
-  end
+	context "with logged in admin" do
+		setup do
+			sign_in @user = User.make(:admin => true)
+      @domain = Domain.make(:user_id => @user.id)
+		end
 
-  test "should get new" do
-    get :new
-    assert_response :success
-  end
-
-  test "should create domain" do
-    assert_difference('Domain.count') do
-      post :create, :domain => { }
+    should "get index" do
+      get :index
+      assert_response :success
+      assert_not_nil assigns(:domains)
     end
 
-    assert_redirected_to domain_path(assigns(:domain))
-  end
-
-  test "should show domain" do
-    get :show, :id => domains(:one).to_param
-    assert_response :success
-  end
-
-  test "should get edit" do
-    get :edit, :id => domains(:one).to_param
-    assert_response :success
-  end
-
-  test "should update domain" do
-    put :update, :id => domains(:one).to_param, :domain => { }
-    assert_redirected_to domain_path(assigns(:domain))
-  end
-
-  test "should destroy domain" do
-    assert_difference('Domain.count', -1) do
-      delete :destroy, :id => domains(:one).to_param
+    should "get new" do
+      get :new
+      assert_response :success
     end
 
-    assert_redirected_to domains_path
+    should "create domain" do
+      assert_difference('Domain.count') do
+        post :create, :domain => {:domain => 'bla.com', :user_id => @user.id}
+      end
+
+      assert_redirected_to domain_path(assigns(:domain))
+    end
+
+    should "show domain" do
+      get :show, :id => @domain.id
+      assert_response :success
+    end
+
+    should "get edit" do
+      get :edit, :id => @domain.id
+      assert_response :success
+    end
+
+    should "update domain" do
+      put :update, :id => @domain.id, :domain => {:domain => 'new.com', :user_id => @user.id}
+      assert_redirected_to domain_path(assigns(:domain))
+    end
+
+    should "destroy domain" do
+      assert_difference('Domain.count', -1) do
+        delete :destroy, :id => @domain.id
+      end
+
+      assert_redirected_to domains_path
+    end
+  end
+  
+  context "with logged in customer" do
+		setup do
+			sign_in @user = User.make
+      @domain = Domain.make
+		end
+
+    should "create domain" do
+      #assert_response :redirect
+    end
+
+    should "get edit" do
+      get :edit, :id => @domain.id
+      assert_response :success
+    end
   end
 end

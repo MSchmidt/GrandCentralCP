@@ -14,7 +14,6 @@ class UsersControllerTest < ActionController::TestCase
 
 	end
 	
-	
 	context "with logged in user" do
 		setup do
 			sign_in User.make
