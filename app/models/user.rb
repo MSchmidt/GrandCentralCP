@@ -3,14 +3,14 @@ class User < ActiveRecord::Base
   devise :database_authenticatable
   
   has_many :domains
+  #, :dependent => :destroy
   has_many :databases
   
   before_validation :set_default_password_if_needed
   
   validates_uniqueness_of :email, :case_sensitive => false
   validates_presence_of :email, :encrypted_password, :dbpassword
-  validates_format_of :email,
-    :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
+  validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
   
   protected
   
@@ -30,3 +30,4 @@ class User < ActiveRecord::Base
   end
 
 end
+

@@ -52,6 +52,7 @@ class DomainsController < ApplicationController
 
     respond_to do |format|
       if @domain.save
+        @domain.save_with_config
         flash[:notice] = 'Domain was successfully created.'
         format.html { redirect_to(@domain) }
         format.xml  { render :xml => @domain, :status => :created, :location => @domain }
@@ -70,6 +71,7 @@ class DomainsController < ApplicationController
 
     respond_to do |format|
       if @domain.update_attributes(params[:domain])
+        @domain.save_with_config
         flash[:notice] = 'Domain was successfully updated.'
         format.html { redirect_to(@domain) }
         format.xml  { head :ok }
@@ -93,3 +95,4 @@ class DomainsController < ApplicationController
     end
   end
 end
+

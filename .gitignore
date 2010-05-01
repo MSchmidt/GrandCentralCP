@@ -8,3 +8,4 @@ config/initializers/session_store.rb
 config/initializers/paths.rb
 *.*~
 *~
+nbproject

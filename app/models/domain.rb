@@ -20,6 +20,7 @@ class Domain < ActiveRecord::Base
       File.open(self.domain, "w") do |f|
         f.write(vhost_template)
       end
+      #system("etc/init.d/apache2 restart")
     rescue Errno::ENOENT
       puts "No such directory"
     end
@@ -29,3 +30,4 @@ class Domain < ActiveRecord::Base
     IO.read(TEMPLATE_FILE) #definend in config\initializers\paths.rb
   end
 end
+
