@@ -20,3 +20,13 @@ production:
   database: db/production.sqlite3
   pool: 5
   timeout: 5000
+
+# this is the installed database system for users
+# gccp will create users and databases there
+connected_database:
+  adapter: mysql
+  encoding: utf8
+  database: mysql
+  username: root
+  password: password
+  host: localhost
