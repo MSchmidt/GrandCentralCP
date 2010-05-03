@@ -3,7 +3,7 @@
 %h2 Domains:
 %div
   - @user.domains.each do |domain|
-    %p= domain.domain
+    %p= domain.fqdn
   
 = link_to "add a new domain", new_domain_path
 

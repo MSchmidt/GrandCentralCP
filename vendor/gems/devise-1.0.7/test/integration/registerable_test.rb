@@ -28,8 +28,7 @@ class RegistrationTest < ActionController::IntegrationTest
     fill_in 'password confirmation', :with => 'new_user123'
     click_button 'Sign up'
 
-    assert_equal true, @controller.send(:flash)[:"user_signed_up"]
-    assert_equal "You have signed up successfully.", @controller.send(:flash)[:notice]
+    assert_equal "You have signed up successfully. If enabled, a confirmation was sent to your e-mail.", @controller.send(:flash)[:notice]
 
     # For some reason flash is not being set correctly, so instead of getting the
     # "signed_up" message we get the unconfirmed one. Seems to be an issue with
@@ -38,6 +37,8 @@ class RegistrationTest < ActionController::IntegrationTest
     # assert_contain 'You have signed up successfully.'
     # assert_not_contain 'confirm your account'
 
+    follow_redirect!
+    assert_contain 'Sign in'
     assert_not warden.authenticated?(:user)
 
     user = User.last
@@ -116,6 +117,19 @@ class RegistrationTest < ActionController::IntegrationTest
     assert_contain 'You updated your account successfully.'
 
     assert User.first.valid_password?('pas123')
+  end
+
+  test 'a signed in user should not be able to edit his password with invalid confirmation' do
+    sign_in_as_user
+    get edit_user_registration_path
+  
+    fill_in 'password', :with => 'pas123'
+    fill_in 'password confirmation', :with => ''
+    fill_in 'current password', :with => '123456'
+    click_button 'Update'
+  
+    assert_contain "Password doesn't match confirmation"
+    assert_not User.first.valid_password?('pas123')
   end
 
   test 'a signed in user should be able to cancel his account' do
