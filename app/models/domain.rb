@@ -6,7 +6,8 @@ class Domain < ActiveRecord::Base
   validates_presence_of :user_id
   
   def save_with_config
-    #save
+    save
+    
     begin
       servername = self.fqdn
       serveralias = "www." + servername
@@ -17,7 +18,7 @@ class Domain < ActiveRecord::Base
       
       Dir.chdir(TARGET_DIR) #definend in config/initializers/gccp.rb
       puts Dir.pwd
-      File.open(self.fqdn, "w") do |f|
+      File.open('gccp_' + self.fqdn, "w") do |f|
         f.write(vhost_template)
       end
       #system("etc/init.d/apache2 restart")
