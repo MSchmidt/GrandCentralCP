@@ -9,8 +9,8 @@
 
 <% @domains.each do |domain| %>
   <tr>
-    <td><%= link_to domain.domain, "http://"+domain.domain, :target => "_blank" %></td>
-    <td><%=h domain.folder %></td>
+    <td><%= link_to domain.fqdn, "http://"+domain.fqdn, :target => "_blank" %></td>
+    <td><%=h domain.mount_point %></td>
     <td><%=h domain.user.email if current_user.admin %></td>
     <td><%= link_to 'Show', domain %></td>
     <td><%= link_to 'Edit', edit_domain_path(domain) %></td>

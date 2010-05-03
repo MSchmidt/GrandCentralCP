@@ -20,7 +20,7 @@ class DomainsControllerTest < ActionController::TestCase
 
     should "create domain" do
       assert_difference('Domain.count') do
-        post :create, :domain => {:domain => 'bla.com', :user_id => @user.id}
+        post :create, :domain => {:fqdn => 'bla.com', :user_id => @user.id}
       end
 
       assert_redirected_to domain_path(assigns(:domain))
@@ -37,7 +37,7 @@ class DomainsControllerTest < ActionController::TestCase
     end
 
     should "update domain" do
-      put :update, :id => @domain.id, :domain => {:domain => 'new.com', :user_id => @user.id}
+      put :update, :id => @domain.id, :domain => {:fqdn => 'new.com', :user_id => @user.id}
       assert_redirected_to domain_path(assigns(:domain))
     end
 
@@ -55,10 +55,6 @@ class DomainsControllerTest < ActionController::TestCase
 			sign_in @user = User.make
       @domain = Domain.make
 		end
-
-    should "create domain" do
-      #assert_response :redirect
-    end
 
     should "get edit" do
       get :edit, :id => @domain.id

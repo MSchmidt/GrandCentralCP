@@ -20,8 +20,8 @@ ActiveRecord::Schema.define(:version => 20100429144733) do
 
   create_table "domains", :force => true do |t|
     t.integer  "user_id"
-    t.string   "domain"
-    t.string   "folder"
+    t.string   "fqdn"
+    t.string   "mount_point"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

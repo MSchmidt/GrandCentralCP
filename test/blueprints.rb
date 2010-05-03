@@ -3,7 +3,7 @@ require 'machinist/active_record'
 Sham.email 		{ Faker::Internet.email }
 Sham.password { User::generate_password }
 Sham.name 		{ Faker::Name.name }
-Sham.domain   { Faker::Internet.domain_name }
+Sham.fqdn     { Faker::Internet.domain_name }
 
 User.blueprint do
 	email
@@ -11,7 +11,7 @@ User.blueprint do
 end
 
 Domain.blueprint do
-	domain  
+	fqdn  
   user_id   { 1 }
 end
 

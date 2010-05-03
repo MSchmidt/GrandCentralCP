@@ -1,9 +1,9 @@
 = f.error_messages
 
 %p
-  = f.label :domain
+  = f.label :fqdn, "FQDN"
   %br/
-  = f.text_field :domain, :class => 'title'
+  = f.text_field :fqdn, :class => 'title'
 
 - if current_user.admin
   %p
@@ -14,6 +14,6 @@
   = f.hidden_field :user_id, :value => current_user.id
   
 %p
-  = f.label :folder
+  = f.label :mount_point
   %br/
-  = f.text_field :folder
+  = f.text_field :mount_point
