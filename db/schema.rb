@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100503183618) do
+ActiveRecord::Schema.define(:version => 20100503203735) do
 
   create_table "databases", :force => true do |t|
     t.integer  "user_id"
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(:version => 20100503183618) do
     t.integer  "priority",   :default => 0
     t.integer  "attempts",   :default => 0
     t.text     "handler"
-    t.string   "last_error"
+    t.text     "last_error"
     t.datetime "run_at"
     t.datetime "locked_at"
     t.datetime "failed_at"
@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(:version => 20100503183618) do
     t.datetime "updated_at"
   end
 
-  add_index "delayed_jobs", ["locked_by"], :name => "index_delayed_jobs_on_locked_by"
+  add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
   create_table "domains", :force => true do |t|
     t.integer  "user_id"
