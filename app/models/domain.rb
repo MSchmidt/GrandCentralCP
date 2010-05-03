@@ -16,7 +16,7 @@ class Domain < ActiveRecord::Base
       
       vhost_template = ERB.new(read_vhost_template).result(binding)
       
-      Dir.chdir(TARGET_DIR) #definend in config/initializers/gccp.rb
+      Dir.chdir(VHOST_TARGET_DIR) #definend in config/initializers/gccp.rb
       puts Dir.pwd
       File.open('gccp_' + self.fqdn, "w") do |f|
         f.write(vhost_template)
