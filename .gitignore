@@ -3,6 +3,7 @@ tmp/**/*
 doc/api
 doc/app
 db/*.sqlite3
+config/database.yml
 config/initializers/session_store.rb
 config/initializers/gccp.rb
 *.*~
