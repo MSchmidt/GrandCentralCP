@@ -1,6 +1,7 @@
 class Domain < ActiveRecord::Base
   belongs_to :user
   
+  validates_presence_of :fqdn
   validates_uniqueness_of :fqdn
   validates_length_of :fqdn, :minimum => 4
   validates_presence_of :user_id
