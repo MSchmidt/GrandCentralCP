@@ -27,6 +27,6 @@ class Domain < ActiveRecord::Base
   end
   
   def read_vhost_template
-    IO.read(TEMPLATE_FILE) #definend in config/initializers/gccp.rb
+    IO.read(RAILS_ROOT + '/app/templates/apache2_vhost.conf')
   end
 end
