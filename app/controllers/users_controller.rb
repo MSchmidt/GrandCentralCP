@@ -53,11 +53,4 @@ class UsersController < ApplicationController
       format.xml  { head :ok }
     end
   end
-
-  protected
-  def is_admin
-    unless current_user.admin
-      redirect_to domains_url
-    end
-  end
 end

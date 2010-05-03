@@ -22,4 +22,10 @@ class ApplicationController < ActionController::Base
   def is_admin?
     current_user.admin
   end
+  
+  def is_admin
+    unless current_user.admin
+      redirect_to user_root_url
+    end
+  end
 end
