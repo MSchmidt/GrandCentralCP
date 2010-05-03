@@ -11,8 +11,11 @@ class DomainTest < ActiveSupport::TestCase
       10.times { Domain.make }
     end
     
+    should_belong_to :user
+    
     should_validate_presence_of :fqdn
     should_validate_uniqueness_of :fqdn
     should_ensure_length_at_least :fqdn, 4
+    should_validate_presence_of :user_id
   end
 end

@@ -11,6 +11,9 @@ class UserTest < ActiveSupport::TestCase
       10.times { User.make }
     end
     
+    should_have_many :domains
+    should_have_many :databases
+    
     should_validate_presence_of :email
     should_validate_uniqueness_of :email
   
