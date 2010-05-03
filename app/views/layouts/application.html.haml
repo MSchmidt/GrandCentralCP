@@ -2,16 +2,16 @@
 %html
   %head
     %meta{:http => 'content-type', :content => 'text/html;charset=UTF-8'}
-    %title= controller.action_name
+    %title= "GrandCentralCP: #{controller.controller_name} - #{controller.action_name}"
     = stylesheet_link_tag 'blueprint/screen'
     = stylesheet_link_tag 'application'
   %body
     #header
       %ul#top_navigation
-        %li= link_to "Domains", domains_url
-        %li= link_to "Databases", databases_url
-        - if current_user.admin
-          %li= link_to 'Customers', users_url
+        %li= link_to "Domains", domains_path
+        %li= link_to "Databases", databases_path
+        - if is_admin?
+          %li= link_to 'Admin', admin_path
         - if user_signed_in?
           %li= link_to 'Logout', destroy_user_session_path
     

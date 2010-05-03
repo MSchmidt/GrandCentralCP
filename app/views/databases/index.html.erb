@@ -3,14 +3,14 @@
 <table>
   <tr>
     <th>Name</th>
-    <th><%= 'User' if current_user.admin %></th>
+    <th><%= 'User' if is_admin? %></th>
     <th>Password</th>
   </tr>
 
 <% @databases.each do |database| %>
   <tr>
     <td><%=h database.name %></td>
-    <td><%=h database.user.email if current_user.admin %></td>
+    <td><%=h database.user.email if is_admin? %></td>
     <td><%=h database.user.dbpassword %></td>
     <td><%= link_to 'Show', database %></td>
     <td><%= link_to 'Edit', edit_database_path(database) %></td>

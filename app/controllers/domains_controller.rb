@@ -4,7 +4,7 @@ class DomainsController < ApplicationController
   # GET /domains.xml
   def index
     
-    if current_user.admin
+    if is_admin?
       @domains = Domain.all
     else
       @domains = Domain.find(:all, :conditions => {:user_id => current_user.id})

@@ -3,7 +3,7 @@ class DatabasesController < ApplicationController
   # GET /databases.xml
   def index
 
-    if current_user.admin
+    if is_admin?
       @databases = Database.all
     else
       @databases = Database.find(:all, :conditions => {:user_id => current_user.id})

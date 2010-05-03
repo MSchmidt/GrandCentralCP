@@ -5,7 +5,7 @@
   %br/
   = f.text_field :fqdn, :class => 'title'
 
-- if current_user.admin
+- if is_admin?
   %p
     = label_tag :user_id
     %br/
