@@ -12,7 +12,8 @@ end
 
 Domain.blueprint do
 	fqdn  
-  user_id   { 1 }
+  user_id     { 1 }
+  mount_point { Sham.name }
 end
 
 Database.blueprint do

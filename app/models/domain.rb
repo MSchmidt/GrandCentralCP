@@ -1,7 +1,7 @@
 class Domain < ActiveRecord::Base
   belongs_to :user
   
-  validates_presence_of :fqdn
+  validates_presence_of :fqdn, :mount_point
   validates_uniqueness_of :fqdn
   validates_length_of :fqdn, :minimum => 4
   validates_presence_of :user_id
@@ -15,11 +15,8 @@ class Domain < ActiveRecord::Base
       email = self.user.email
       folder = self.mount_point
       
-      vhost = RAILS_ROOT + '/app/templates/apache2_vhost.conf'
-      index = RAILS_ROOT + '/app/templates/index.html'
-      
-      vhost_template = read_template(vhost)
-      index_template = read_template(index)
+      vhost_template = ERB.new(read_template('apache2_vhost.conf')).result(binding)
+      index_template = ERB.new(read_template('index.html')).result(binding)
       
       Dir.chdir(VHOST_TARGET_DIR) #definend in config/initializers/gccp.rb
       puts Dir.pwd
@@ -28,10 +25,10 @@ class Domain < ActiveRecord::Base
         f.write(vhost_template)
       end
       system("a2ensite #{servername}")
-      Dir.mkdir(WWW_DIR+folder)
       system("etc/init.d/apache2 reload")
       #system("etc/init.d/apache2 restart")
-
+      
+      Dir.mkdir(WWW_DIR+folder)
       Dir.chdir(WWW_DIR+folder)
       File.open("index.html", "w") do |f|
         f.write(index_template)
@@ -42,8 +39,8 @@ class Domain < ActiveRecord::Base
     end
   end
   
-  def read_template(template)
-    ERB.new(IO.read(template)).result(binding)
+  def read_template(file)
+    IO.read(RAILS_ROOT + '/app/templates/'+file)
   end
   
   def destroy_config
