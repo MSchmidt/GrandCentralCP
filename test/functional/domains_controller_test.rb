@@ -19,11 +19,13 @@ class DomainsControllerTest < ActionController::TestCase
     end
 
     should "create domain" do
-      #assert_difference('Domain.count') do
-        #post :create, :domain => {:fqdn => 'bla.com', :user_id => @user.id}
-      #end
-
-      #assert_redirected_to domain_path(assigns(:domain))
+      assert_difference('Domain.count') do
+        assert_difference('Delayed::Job.count') do
+          post :create, :domain => {:fqdn => 'bla.com', :user_id => @user.id, :mount_point => '/bla'}
+        end
+      end
+      
+      assert_redirected_to domain_path(assigns(:domain))
     end
 
     should "show domain" do
@@ -37,7 +39,11 @@ class DomainsControllerTest < ActionController::TestCase
     end
 
     should "update domain" do
-      put :update, :id => @domain.id, :domain => {:fqdn => 'new.com', :user_id => @user.id}
+        
+      assert_difference('Delayed::Job.count') do
+        put :update, :id => @domain.id, :domain => {:fqdn => 'new.com', :user_id => @user.id, :mount_point => '/new'}
+      end
+      
       assert_redirected_to domain_path(assigns(:domain))
     end
 
