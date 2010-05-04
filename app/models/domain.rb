@@ -26,7 +26,7 @@ class Domain < ActiveRecord::Base
         f.write(vhost_template)
       end
       system("a2ensite gccp_#{servername}")
-      system("etc/init.d/apache2 reload")
+      system("/etc/init.d/apache2 reload")
       
       Dir.mkdir(WWW_DIR + folder)
       Dir.chdir(WWW_DIR + folder)
