@@ -11,7 +11,7 @@
 
   - @domains.each do |domain|
     %tr
-      %td= link_to domain.fqdn, "http://"+domain.fqdn, :target => "_blank"
+      %td= link_to h(domain.fqdn), "http://" + h(domain.fqdn), :target => "_blank"
       %td=h domain.mount_point
       %td=h domain.user.email if is_admin?
       %td= link_to 'Show', domain
