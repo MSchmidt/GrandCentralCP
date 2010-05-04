@@ -1,0 +1,15 @@
+%p
+  %b Domain:
+  =h @domain.fqdn
+
+%p
+  %b Folder:
+  =h @domain.mount_point
+
+%p
+  %b User:
+  =h @domain.user.email
+
+= link_to 'Edit', edit_domain_path(@domain)
+|
+= link_to 'Back', domains_path

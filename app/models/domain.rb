@@ -11,7 +11,6 @@ class Domain < ActiveRecord::Base
   end
   
   def write_config 
-    
     begin
       servername = self.fqdn
       serveralias = "www." + servername
@@ -22,17 +21,15 @@ class Domain < ActiveRecord::Base
       index_template = ERB.new(read_template('index.html')).result(binding)
       
       Dir.chdir(VHOST_TARGET_DIR) #definend in config/initializers/gccp.rb
-      puts Dir.pwd
+      
       File.open('gccp_' + servername, "w") do |f|
-      #File.open(servername, "w") do |f|
         f.write(vhost_template)
       end
       system("a2ensite gccp_#{servername}")
       system("etc/init.d/apache2 reload")
-      #system("etc/init.d/apache2 restart")
       
-      Dir.mkdir(WWW_DIR+folder)
-      Dir.chdir(WWW_DIR+folder)
+      Dir.mkdir(WWW_DIR + folder)
+      Dir.chdir(WWW_DIR + folder)
       File.open("index.html", "w") do |f|
         f.write(index_template)
       end

@@ -1,0 +1,20 @@
+%h1 Listing databases
+
+%table
+  %tr
+    %th Name
+    %th= 'User' if is_admin?
+    %th Password
+
+  - @databases.each do |database|
+    %tr
+      %td=h database.name
+      %td=h database.user.email if is_admin?
+      %td=h database.user.dbpassword
+      %td= link_to 'Show', database
+      %td= link_to 'Edit', edit_database_path(database)
+      %td= link_to 'Destroy', database, :confirm => 'Are you sure?', :method => :delete
+
+%br/
+
+= link_to 'New database', new_database_path

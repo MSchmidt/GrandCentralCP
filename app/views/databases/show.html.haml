@@ -1,0 +1,15 @@
+%p
+  %b Name:
+  =h @database.name
+
+%p
+  %b User:
+  =h @database.user.email
+
+%p
+  %b Password:
+  =h @database.user.dbpassword
+
+= link_to 'Edit', edit_database_path(@database)
+|
+= link_to 'Back', databases_path

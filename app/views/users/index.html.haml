@@ -1,0 +1,19 @@
+%h1 Listing customers
+
+%table
+  %tr
+    %th E-Mail
+    %th
+
+  - @users.each do |user|
+    %tr
+      %td
+        = link_to h(user.email), user_path(user.id)
+        = '- logged in' if current_user == user
+        = '(admin)' if user.admin
+      %td
+        = link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete
+
+%br/
+
+= link_to 'New Customer', new_user_path
