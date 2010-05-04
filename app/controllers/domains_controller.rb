@@ -49,9 +49,11 @@ class DomainsController < ApplicationController
   # POST /domains.xml
   def create
     @domain = Domain.new(params[:domain])
-
+    
     respond_to do |format|
-      if @domain.save_with_config
+      if @domain.save
+        Delayed::Job.enqueue Domain.find(@domain.id)
+        #Domain.delay.write_config(@domain)
         flash[:notice] = 'Domain was successfully created.'
         format.html { redirect_to(@domain) }
         format.xml  { render :xml => @domain, :status => :created, :location => @domain }
@@ -70,7 +72,7 @@ class DomainsController < ApplicationController
 
     respond_to do |format|
       if @domain.update_attributes(params[:domain])
-        @domain.save_with_config
+        Delayed::Job.enqueue Domain.find(@domain.id)
         flash[:notice] = 'Domain was successfully updated.'
         format.html { redirect_to(@domain) }
         format.xml  { head :ok }
@@ -86,7 +88,7 @@ class DomainsController < ApplicationController
   # DELETE /domains/1.xml
   def destroy
     @domain = Domain.find(params[:id])
-    @domain.destroy
+    @domain.destroy_with_config
 
     respond_to do |format|
       format.html { redirect_to(domains_url) }
