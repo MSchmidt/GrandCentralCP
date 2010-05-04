@@ -10,8 +10,7 @@ class Database < ActiveRecord::Base
     write_config
   end
   
-  def write_config 
-
+  def write_config
     dbname = self.name
     user = self.user.email
     userpwd = self.user.dbpassword
