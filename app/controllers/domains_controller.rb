@@ -87,7 +87,7 @@ class DomainsController < ApplicationController
   # DELETE /domains/1.xml
   def destroy
     @domain = Domain.find(params[:id])
-    @domain.destroy_with_config
+    @domain.destroy
 
     respond_to do |format|
       format.html { redirect_to(domains_url) }

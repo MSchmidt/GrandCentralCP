@@ -8,8 +8,6 @@ class UserSessionsTest < ActionController::IntegrationTest
 		end
 
 		should "log into GCCP" do
-		  puts @user.email
-		  puts @user.password
       visit root_path
       fill_in "user[email]", :with => @user.email
       fill_in "user[password]", :with => @user.password
