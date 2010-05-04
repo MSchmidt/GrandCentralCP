@@ -5,7 +5,7 @@
   - @user.domains.each do |domain|
     %p= domain.fqdn
   
-= link_to "add a new domain", new_domain_path
+= link_to "add a new domain", new_domain_path(:u => @user.id)
 
 %p
   &nbsp;
@@ -15,4 +15,4 @@
   - @user.databases.each do |db|
     %p= db.name
   
-= link_to "add a new database", new_database_path
+= link_to "add a new database", new_database_path(:u => @user.id)

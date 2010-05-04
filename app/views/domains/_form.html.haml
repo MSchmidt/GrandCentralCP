@@ -9,7 +9,7 @@
   %p
     = label_tag :user_id
     %br/
-    = f.collection_select :user_id, @users, :id, :email, {:prompt => true}
+    = f.collection_select :user_id, @users, :id, :email, {:prompt => true, :selected => params[:u].to_i}
 - else
   = f.hidden_field :user_id, :value => current_user.id
   
