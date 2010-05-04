@@ -1,8 +1,6 @@
 class ConnectedDatabase < ActiveRecord::Base
   establish_connection :connected_database
-  
-  #set_table_name "mysql"
-  
+   
   def self.create_database(options={})
     if options[:name] && options[:name].any?
       connection.execute "CREATE DATABASE `#{options[:name]}`;"

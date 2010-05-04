@@ -53,7 +53,6 @@ class DomainsController < ApplicationController
     respond_to do |format|
       if @domain.save
         Delayed::Job.enqueue Domain.find(@domain.id)
-        #Domain.delay.write_config(@domain)
         flash[:notice] = 'Domain was successfully created.'
         format.html { redirect_to(@domain) }
         format.xml  { render :xml => @domain, :status => :created, :location => @domain }

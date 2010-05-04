@@ -51,6 +51,7 @@ class DatabasesController < ApplicationController
 
     respond_to do |format|
       if @database.save
+        Delayed::Job.enqueue Database.find(@database.id)
         flash[:notice] = 'Database was successfully created.'
         format.html { redirect_to(@database) }
         format.xml  { render :xml => @database, :status => :created, :location => @database }
