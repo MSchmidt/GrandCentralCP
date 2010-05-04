@@ -27,6 +27,11 @@ class DomainsControllerTest < ActionController::TestCase
       
       assert_redirected_to domain_path(assigns(:domain))
     end
+    
+    should "show domain" do
+      get :show, :id => @domain.id
+      assert_response :success
+    end
 
     should "get edit" do
       get :edit, :id => @domain.id
@@ -34,7 +39,6 @@ class DomainsControllerTest < ActionController::TestCase
     end
 
     should "update domain" do
-        
       assert_difference('Delayed::Job.count') do
         put :update, :id => @domain.id, :domain => {:fqdn => 'new.com', :user_id => @user.id, :mount_point => '/new'}
       end
