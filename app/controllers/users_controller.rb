@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   
-  before_filter :is_admin
+  before_filter :is_admin, :except => [:edit, :update]
   
   def index
     @users = User.all
@@ -39,6 +39,25 @@ class UsersController < ApplicationController
         format.xml  { render :xml => @user, :status => :created, :location => @user }
       else
         format.html { render :action => "new" }
+        format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+  
+  def edit
+    @user = current_user
+  end
+  def update
+    @user = current_user
+
+    respond_to do |format|
+      if @user.valid_password?(params[:old_password]) && @user.update_attributes(params[:user]) && @user.valid_password?(params[:confirm_password])
+        flash[:notice] = 'User was successfully updated.'
+        format.html { redirect_to(domains_url) }
+        format.xml  { head :ok }
+      else
+        flash[:notice] = 'Password Confirm or Old Password wrong'
+        format.html { render :action => "edit" }
         format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
       end
     end

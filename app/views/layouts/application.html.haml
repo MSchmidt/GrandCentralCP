@@ -12,6 +12,8 @@
         %li= link_to "Databases", databases_path
         - if is_admin?
           %li= link_to 'Admin', admin_path
+        - if !is_admin?
+          %li= link_to 'Account', edit_user_path(current_user)
         - if user_signed_in?
           %li= link_to 'Logout', destroy_user_session_path
     

@@ -4,9 +4,9 @@ GrandCentralCP is a light web server control panel written in Ruby on Rails
 
 Right now the development version can perform the following tasks:
 
-- creation of MySQL databases
-- configuration of Apache2
-- creation of customers as admin
+- Creation of MySQL databases
+- Configuration of Apache2
+- Creation of customers as admin
 
 
 == Getting Started
@@ -18,7 +18,7 @@ Right now the development version can perform the following tasks:
 
 == Basic Usage
 
-When you start webrick the webinterface is available on http://localhost:3000/ on your server.
+When you start webrick the interface is available on http://localhost:3000/ on your server.
 
 
 == Maintainers
