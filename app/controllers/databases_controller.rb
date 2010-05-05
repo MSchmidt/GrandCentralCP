@@ -1,11 +1,14 @@
 class DatabasesController < ApplicationController
+  
+  before_filter :is_admin, :except => [:index, :show, :edit, :update]
+  
   # GET /databases
   # GET /databases.xml
   def index
     if is_admin?
       @databases = Database.all
     else
-      @databases = Database.find(:all, :conditions => {:user_id => current_user.id})
+      @databases = current_user.databases.all
     end
     
     respond_to do |format|
@@ -17,7 +20,11 @@ class DatabasesController < ApplicationController
   # GET /databases/1
   # GET /databases/1.xml
   def show
-    @database = Database.find(params[:id])
+    if is_admin?
+      @database = Database.find(params[:id])
+    else
+      @database = current_user.databases.find(params[:id])
+    end
 
     respond_to do |format|
       format.html # show.html.erb
@@ -27,6 +34,7 @@ class DatabasesController < ApplicationController
 
   # GET /databases/new
   # GET /databases/new.xml
+  # ADMIN only
   def new
     @database = Database.new
     @users = User.all
@@ -39,12 +47,17 @@ class DatabasesController < ApplicationController
 
   # GET /databases/1/edit
   def edit
-    @database = Database.find(params[:id])
-    @users = User.all
+    if is_admin?
+      @database = Database.find(params[:id])
+      @users = User.all
+    else
+      @database = current_user.databases.find(params[:id])
+    end
   end
 
   # POST /databases
   # POST /databases.xml
+  # ADMIN only
   def create
     @database = Database.new(params[:database])
 
@@ -65,7 +78,11 @@ class DatabasesController < ApplicationController
   # PUT /databases/1
   # PUT /databases/1.xml
   def update
-    @database = Database.find(params[:id])
+    if is_admin?
+      @database = Database.find(params[:id])
+    else
+      @database = current_user.databases.find(params[:id])
+    end
 
     respond_to do |format|
       if @database.update_attributes(params[:database])
@@ -81,6 +98,7 @@ class DatabasesController < ApplicationController
 
   # DELETE /databases/1
   # DELETE /databases/1.xml
+  # ADMIN only
   def destroy
     @database = Database.find(params[:id])
     @database.destroy
