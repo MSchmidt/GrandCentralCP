@@ -1,0 +1,51 @@
+== GrandCentralCP
+
+GrandCentralCP is a light web server control panel written in Ruby on Rails
+
+== v1 Preview Version
+
+This is a preview version of GCCP and is still under heavy development.
+It is NOT recommended for production use!
+
+== Features
+
+Features included in this version:
+
+* automatic configuration of Apache2 VHosts
+* automatic configuration of MySQL Users Databases
+* simple user management
+
+== Planned Features for first stable release
+
+This is an very early version of GCCP. Later versions will
+
+* have an installer
+* configure FTP users
+* allow subdomains
+* display a users web folders
+* look prettier
+* have an feature rich user interface
+
+== Take GCCP preview for a spin
+
+As of now GCCP is written for Debian and Ubuntu only.
+
+* prepare your server
+	apt-get install apache2 mysql-server mysql-client ruby
+
+...detailed instructions coming soon. Please be aware of the alpha character of the software.
+Do only install GCCP on test systems and only if you know what you do!
+
+== Basic Usage
+
+When you start webrick the interface is available on http://localhost:3000/ on your server.
+
+
+== Maintainers
+
+* Matthias Schmidt (http://github.com/MSchmidt)
+* Bettina Steger (http://github.com/lpsBetty)
+
+== Partners
+
+Development of GrandCentralCP is supported by FH Salzburg - University of Applied Sciences Salzburg
