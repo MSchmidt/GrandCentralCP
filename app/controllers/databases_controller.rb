@@ -2,7 +2,6 @@ class DatabasesController < ApplicationController
   # GET /databases
   # GET /databases.xml
   def index
-
     if is_admin?
       @databases = Database.all
     else

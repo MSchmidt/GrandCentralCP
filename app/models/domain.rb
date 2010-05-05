@@ -51,10 +51,11 @@ class Domain < ActiveRecord::Base
         folder = self.mount_point
         
         system("a2dissite gccp_#{servername}")
-        system("etc/init.d/apache2 reload")
         
         Dir.chdir(VHOST_TARGET_DIR) #definend in config/initializers/gccp.rb
-        File.delete('gccp_'+servername) if File.exist?('gccp_'+servername)
+        File.delete('gccp_' + servername) if File.exist?('gccp_'+servername)
+        
+        system("etc/init.d/apache2 reload")
         
       rescue Errno::ENOENT
         puts "No such directory"

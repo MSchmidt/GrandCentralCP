@@ -1,13 +1,14 @@
 class DomainsController < ApplicationController
   
+  before_filter :is_admin, :except => [:index, :show, :edit, :update]
+  
   # GET /domains
   # GET /domains.xml
   def index
-    
     if is_admin?
       @domains = Domain.all
     else
-      @domains = Domain.find(:all, :conditions => {:user_id => current_user.id})
+      @domains = current_user.domains.all
     end
     
     respond_to do |format|
@@ -19,7 +20,11 @@ class DomainsController < ApplicationController
   # GET /domains/1
   # GET /domains/1.xml
   def show
-    @domain = Domain.find(params[:id])
+    if is_admin?
+      @domain = Domain.find(params[:id])
+    else
+      @domain = current_user.domains.find(params[:id])
+    end
 
     respond_to do |format|
       format.html # show.html.erb
@@ -29,6 +34,7 @@ class DomainsController < ApplicationController
 
   # GET /domains/new
   # GET /domains/new.xml
+  # ADMIN only
   def new
     @domain = Domain.new
     @users = User.all
@@ -41,12 +47,17 @@ class DomainsController < ApplicationController
 
   # GET /domains/1/edit
   def edit
-    @domain = Domain.find(params[:id])
-    @users = User.all
+    if is_admin?
+      @domain = Domain.find(params[:id])
+      @users = User.all
+    else
+      @domain = current_user.domains.find(params[:id])
+    end
   end
 
   # POST /domains
   # POST /domains.xml
+  # ADMIN only
   def create
     @domain = Domain.new(params[:domain])
     
@@ -67,7 +78,11 @@ class DomainsController < ApplicationController
   # PUT /domains/1
   # PUT /domains/1.xml
   def update
-    @domain = Domain.find(params[:id])
+    if is_admin?
+      @domain = Domain.find(params[:id])
+    else
+      @domain = current_user.domains.find(params[:id])
+    end
 
     respond_to do |format|
       if @domain.update_attributes(params[:domain])
@@ -85,9 +100,10 @@ class DomainsController < ApplicationController
 
   # DELETE /domains/1
   # DELETE /domains/1.xml
+  # ADMIN only
   def destroy
     @domain = Domain.find(params[:id])
-    @domain.destroy
+    @domain.destroy_with_config
 
     respond_to do |format|
       format.html { redirect_to(domains_url) }
