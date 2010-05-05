@@ -6,7 +6,7 @@ class DatabasesController < ApplicationController
   # GET /databases.xml
   def index
     if is_admin?
-      @databases = Database.all
+      @databases = Database.all :include => :user
     else
       @databases = current_user.databases.all
     end
