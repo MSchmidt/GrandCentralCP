@@ -23,7 +23,7 @@ module Devise
       scope   = options[:scope]
 
       redirect_path = if mapping = Devise.mappings[scope]
-        "/#{mapping.path_names[:sign_in]}"
+        "#{mapping.parsed_path}/#{mapping.path_names[:sign_in]}"
       else
         "/#{default_url}"
       end
