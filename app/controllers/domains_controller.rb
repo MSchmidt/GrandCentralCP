@@ -6,7 +6,7 @@ class DomainsController < ApplicationController
   # GET /domains.xml
   def index
     if is_admin?
-      @domains = Domain.all
+      @domains = Domain.all :include => :user
     else
       @domains = current_user.domains.all
     end
