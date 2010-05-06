@@ -13,7 +13,7 @@
         - if is_admin?
           %li= link_to 'Admin', admin_path
         - if !is_admin?
-          %li= link_to 'Account', edit_user_path(current_user)
+          %li= link_to 'Account', change_password_user_path
         - if user_signed_in?
           %li= link_to 'Logout', destroy_user_session_path
     

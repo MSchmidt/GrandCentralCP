@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   
-  before_filter :is_admin, :except => [:edit, :update]
+  before_filter :is_admin, :except => [:change_password, :update_password]
   
   def index
     @users = User.all
@@ -45,24 +45,43 @@ class UsersController < ApplicationController
   end
   
   def edit
-    @user = current_user
+    @user = User.find(params[:id])
   end
+
   def update
-    @user = current_user
+    @user = User.find(params[:id])
 
     respond_to do |format|
-      if @user.valid_password?(params[:old_password]) && @user.update_attributes(params[:user]) && @user.valid_password?(params[:confirm_password])
+      if @user.update_attributes(params[:user])
         flash[:notice] = 'User was successfully updated.'
-        format.html { redirect_to(domains_url) }
+        format.html { redirect_to(@user) }
         format.xml  { head :ok }
       else
-        flash[:notice] = 'Password Confirm or Old Password wrong'
         format.html { render :action => "edit" }
         format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
       end
     end
   end
 
+  def change_password
+    @user = current_user
+  end
+  
+  def update_password
+    @user = current_user
+    
+    respond_to do |format|
+      if @user.valid_password?(params[:old_password]) && (params[:user][:password] == params[:user][:password_confirmation]) && @user.update_attribute(:password, params[:user][:password])
+        flash[:notice] = 'User Password was successfully changed.'
+        format.html { redirect_to(user_root_path) }
+        format.xml  { head :ok }
+      else
+        flash[:notice] = 'Password Confirm or Old Password wrong'
+        format.html { render :action => "change_password" }
+        format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
   def destroy
     @user = User.find(params[:id])
     @user.destroy

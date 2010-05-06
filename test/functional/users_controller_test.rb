@@ -24,9 +24,17 @@ class UsersControllerTest < ActionController::TestCase
 			assert_response :redirect
 		end
 		
-		should "change password" do
-		  put :update, :id => @user.id, :user => {:password => 'newpass'}, :old_password => @user.password, :confirm_password => 'newpass'
-			assert_redirected_to domains_path
+		should "change password" do		  
+		  put :update_password, :user => {:password => 'newpass', :password_confirmation => 'newpass'}, :old_password => @user.password
+			assert_redirected_to user_root_path
+		end
+		should "change with invalid password confirm" do		  
+		  put :update_password, :user => {:password => 'newpass', :password_confirmation => 'fail'}, :old_password => @user.password
+			assert_response :success
+		end
+		should "change with invalid old password" do		  
+		  put :update_password, :user => {:password => 'newpass', :password_confirmation => 'newpass'}, :old_password => @user.password.reverse
+			assert_response :success
 		end
 
 

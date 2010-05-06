@@ -1,15 +1,14 @@
 ActionController::Routing::Routes.draw do |map|
 
-  map.resources :domains
-  map.resources :databases
-  map.resources :users
+  map.resources :domains, :databases, :users
+  map.resource :user, :only => {}, :collection => {:change_password => :get, :update_password => :put}
   map.admin 'admin', :controller => 'admin', :action => 'index'
 
   map.devise_for :users, :controllers => { :sessions => 'sessions' }, :path_names => { :sign_in => '', :sign_out => 'logout' }
   map.new_user_session '', :controller => 'sessions', :action => 'new', :conditions => { :method => :get }
   map.user_session '', :controller => 'sessions', :action => 'create', :conditions => { :method => :post }
   map.destroy_user_session 'logout', :controller => 'sessions', :action => 'destroy', :conditions => { :method => :get }
-  
+
   # The priority is based upon order of creation: first created -> highest priority.
 
   # Sample of regular route:

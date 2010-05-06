@@ -1,21 +1,9 @@
-%h1 Change Password for #{@user.email}
+%h1 Editing user
 
 - form_for(@user) do |f|
-  = f.error_messages
+  = render 'form', { :f => f }
+  %p= f.submit 'Update'
 
-  %p
-    = f.label 'Old Password'
-    %br/
-    = password_field_tag :old_password
-  %p
-    = f.label 'New Password'
-    %br/
-    = f.password_field :password
-  %p
-    = f.label 'Confirm'
-    %br/
-    = password_field_tag :confirm_password
-  %p
-    = f.submit 'Update'
-
-= link_to 'Back', admin_path if is_admin?
+= link_to 'Show', @user
+|
+= link_to 'Back', users_path
