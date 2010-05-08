@@ -20,7 +20,7 @@ class DatabasesControllerTest < ActionController::TestCase
 
     should "create database" do
       assert_difference('Database.count') do
-        post :create, :database => {:name => 'blaaa', :user_id => @user.id}
+        post :create, :database => Database.plan
       end
 
       assert_redirected_to database_path(assigns(:database))
@@ -37,7 +37,7 @@ class DatabasesControllerTest < ActionController::TestCase
     end
 
     should "update database" do
-      put :update, :id => @database.id, :database => {:name => 'newname', :user_id => @user.id}
+      put :update, :id => @database.id, :database => Database.plan
       assert_redirected_to database_path(assigns(:database))
     end
 
