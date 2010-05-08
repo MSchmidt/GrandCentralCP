@@ -1,5 +1,4 @@
 class User < ActiveRecord::Base
-
   devise :database_authenticatable
   
   has_many :domains
@@ -28,6 +27,5 @@ class User < ActiveRecord::Base
     1.upto(options[:length]) { |i| password << chars[rand(chars.size-1)] }
     return password
   end
-
 end
 

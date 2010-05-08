@@ -1,6 +1,6 @@
 class ConnectedDatabase < ActiveRecord::Base
   establish_connection :connected_database
-   
+  
   def self.create_database(options={})
     if options[:name] && options[:name].any?
       connection.execute "CREATE DATABASE `#{options[:name]}`;"
@@ -30,5 +30,4 @@ class ConnectedDatabase < ActiveRecord::Base
       connection.execute "DROP USER '#{options[:name]}'@'localhost';"
     end
   end
-  
 end

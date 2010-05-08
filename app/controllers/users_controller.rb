@@ -53,7 +53,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.update_attributes(params[:user])
-        if @user.password.any?
+        if params[:user][:password] && params[:user][:password].any?
           flash[:notice] = "User was successfully updated. Please save the new password: #{@user.password}"
         else
           flash[:notice] = "User was successfully updated."
@@ -77,10 +77,10 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.valid_password?(params[:old_password]) && (params[:user][:password] == params[:user][:password_confirmation]) && params[:user][:password].any? && @user.update_attribute(:password, params[:user][:password])
         flash[:notice] = 'User Password was successfully changed.'
-        format.html { redirect_to(user_root_path) }
+        format.html { redirect_to(user_root_url) }
         format.xml  { head :ok }
       else
-        flash[:notice] = 'Password Confirm or Old Password wrong'
+        flash[:notice] = 'Confirmation Password or Old Password wrong'
         format.html { render :action => "change_password" }
         format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
       end
@@ -93,7 +93,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.update_attribute(:dbpassword, params[:user][:dbpassword])
         flash[:notice] = 'User DB Password was successfully changed.'
-        format.html { redirect_to(databases_path) }
+        format.html { redirect_to(databases_url) }
         format.xml  { head :ok }
       else
         format.html { render :action => "change_password" }
@@ -101,6 +101,7 @@ class UsersController < ApplicationController
       end
     end
   end
+  
   def destroy
     @user = User.find(params[:id])
     @user.destroy
