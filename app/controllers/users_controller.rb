@@ -34,7 +34,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        flash[:notice] = "User was successfully created. Please save the generated password: #{@user.password}"
+        flash[:notice] = "User was successfully created. Please save the password: #{@user.password}"
         format.html { redirect_to(users_url) }
         format.xml  { render :xml => @user, :status => :created, :location => @user }
       else
@@ -53,7 +53,11 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.update_attributes(params[:user])
-        flash[:notice] = 'User was successfully updated.'
+        if @user.password.any?
+          flash[:notice] = "User was successfully updated. Please save the new password: #{@user.password}"
+        else
+          flash[:notice] = "User was successfully updated."
+        end
         format.html { redirect_to(@user) }
         format.xml  { head :ok }
       else

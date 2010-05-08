@@ -1,0 +1,15 @@
+= f.error_messages
+
+%p
+  = f.label :email
+  %br/
+  = f.text_field :email
+%p
+  #{f.label :admin}? :
+  = f.check_box :admin
+  
+%p
+  = f.label :password
+  %br/
+  = f.text_field :password, :value => params['p']
+  = link_to 'Generate Password', {:action => 'edit', :p => User::generate_password }

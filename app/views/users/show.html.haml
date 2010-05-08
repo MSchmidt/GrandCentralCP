@@ -16,3 +16,10 @@
     %p= db.name
   
 = link_to "add a new database", new_database_path(:u => @user.id)
+
+%p
+  &nbsp;
+
+= link_to 'Edit', edit_user_path(@user)
+|
+= link_to 'Back', users_path
