@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   
-  before_filter :is_admin, :except => [:change_password, :update_password]
+  before_filter :is_admin, :except => [:change_password, :update_password, :update_db_password]
   
   def index
     @users = User.all
@@ -75,12 +75,27 @@ class UsersController < ApplicationController
     @user = current_user
     
     respond_to do |format|
-      if @user.valid_password?(params[:old_password]) && (params[:user][:password] == params[:user][:password_confirmation]) && @user.update_attribute(:password, params[:user][:password])
+      if @user.valid_password?(params[:old_password]) && (params[:user][:password] == params[:user][:password_confirmation]) && params[:user][:password].any? && @user.update_attribute(:password, params[:user][:password])
         flash[:notice] = 'User Password was successfully changed.'
         format.html { redirect_to(user_root_path) }
         format.xml  { head :ok }
       else
         flash[:notice] = 'Password Confirm or Old Password wrong'
+        format.html { render :action => "change_password" }
+        format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+  
+  def update_db_password
+    @user = current_user
+    
+    respond_to do |format|
+      if @user.update_attribute(:dbpassword, params[:user][:dbpassword])
+        flash[:notice] = 'User DB Password was successfully changed.'
+        format.html { redirect_to(databases_path) }
+        format.xml  { head :ok }
+      else
         format.html { render :action => "change_password" }
         format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
       end

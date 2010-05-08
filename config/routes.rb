@@ -1,7 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
 
   map.resources :domains, :databases, :users
-  map.resource :user, :only => {}, :collection => {:change_password => :get, :update_password => :put}
+  map.resource :user, :only => {}, :collection => {:change_password => :get, :update_password => :put, :update_db_password => :put}
   map.admin 'admin', :controller => 'admin', :action => 'index'
 
   map.devise_for :users, :controllers => { :sessions => 'sessions' }, :path_names => { :sign_in => '', :sign_out => 'logout' }

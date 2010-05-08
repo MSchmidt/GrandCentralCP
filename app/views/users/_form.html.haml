@@ -11,5 +11,5 @@
 %p
   = f.label :password
   %br/
-  = f.text_field :password, :value => params['p']
+  = f.text_field :password, :value => params[:p]
   = link_to 'Generate Password', {:action => 'edit', :p => User::generate_password }
