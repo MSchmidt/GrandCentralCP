@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class DatabasesControllerTest < ActionController::TestCase
-	context "with logged in admin" do
+	context "Logged in admin" do
 		setup do
 			sign_in @user = User.make(:admin => true)
       @database = Database.make(:user_id => @user.id)
@@ -50,7 +50,7 @@ class DatabasesControllerTest < ActionController::TestCase
     end
   end
   
-  context "with logged in customer" do
+  context "Logged in customer" do
 		setup do
 			sign_in @user = User.make
       @database = Database.make

@@ -3,7 +3,7 @@ require 'test_helper'
 class DomainsControllerTest < ActionController::TestCase
   
 	# ----- ADMIN
-	context "with logged in admin" do
+	context "Logged in admin" do
 		setup do
 			sign_in @admin = User.make(:admin => true)
       @domain = Domain.make(:user_id => @admin.id)
@@ -59,7 +59,7 @@ class DomainsControllerTest < ActionController::TestCase
   
   
   # ----- CUSTOMER
-  context "with logged in customer" do
+  context "Logged in customer" do
 		setup do
 			sign_in @user = User.make
       @domain = Domain.make
