@@ -89,9 +89,11 @@ class UsersController < ApplicationController
   
   def update_db_password
     @user = current_user
+    oldpass = @user.dbpassword
     
     respond_to do |format|
       if @user.update_attribute(:dbpassword, params[:user][:dbpassword])
+        ConnectedDatabase::change_user_password(:name => @user.email, :password => @user.dbpassword, :oldpass => oldpass)
         flash[:notice] = 'User DB Password was successfully changed.'
         format.html { redirect_to(databases_url) }
         format.xml  { head :ok }
