@@ -33,8 +33,6 @@ class ConnectedDatabase < ActiveRecord::Base
   
   def self.change_user_password(options={})
     if options[:name] && options[:password] && options[:name].any? && options[:password].any?
-      establish_connection :adapter => 'mysql', :username => options[:name], :password => options[:oldpass]
-
       connection.execute "SET PASSWORD FOR '#{options[:name]}'@'localhost' = PASSWORD( '#{options[:password]}' );"
     end
   end

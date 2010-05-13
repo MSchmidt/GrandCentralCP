@@ -1,6 +1,6 @@
 require 'machinist/active_record'
 
-Sham.email 		{ Faker::Internet.email }
+Sham.email 		{ Faker::Internet.free_email }
 Sham.password { User::generate_password }
 Sham.name 		{ Faker::Name.name }
 Sham.fqdn     { Faker::Internet.domain_name }
