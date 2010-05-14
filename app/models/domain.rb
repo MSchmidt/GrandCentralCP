@@ -10,7 +10,7 @@ class Domain < ActiveRecord::Base
     write_config
   end
   
-  def write_config 
+  def write_config
     begin
       servername = self.fqdn
       serveralias = "www." + servername
@@ -55,7 +55,7 @@ class Domain < ActiveRecord::Base
         Dir.chdir(VHOST_TARGET_DIR) #definend in config/initializers/gccp.rb
         File.delete('gccp_' + servername) if File.exist?('gccp_'+servername)
         
-        system("etc/init.d/apache2 reload")
+        system("/etc/init.d/apache2 reload")
         
       rescue Errno::ENOENT
         puts "No such directory"
