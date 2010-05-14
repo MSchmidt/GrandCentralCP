@@ -16,6 +16,8 @@ class Domain < ActiveRecord::Base
       serveralias = "www." + servername
       email = self.user.email
       folder = self.mount_point
+      php = self.php
+      rails = self.rails
       
       vhost_template = ERB.new(read_template('apache2_vhost.conf')).result(binding)
       index_template = ERB.new(read_template('index.html')).result(binding)
@@ -30,7 +32,13 @@ class Domain < ActiveRecord::Base
       
       Dir.mkdir(WWW_DIR + folder)
       Dir.chdir(WWW_DIR + folder)
-      File.open("index.html", "w") do |f|
+      
+      indexfile = "index.html"
+      if php
+        indexfile = "index.php"
+      end
+      
+      File.open(indexfile, "w") do |f|
         f.write(index_template)
       end
       

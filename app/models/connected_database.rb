@@ -30,4 +30,10 @@ class ConnectedDatabase < ActiveRecord::Base
       connection.execute "DROP USER '#{options[:name]}'@'localhost';"
     end
   end
+  
+  def self.change_user_password(options={})
+    if options[:name] && options[:password] && options[:name].any? && options[:password].any?
+      connection.execute "SET PASSWORD FOR '#{options[:name]}'@'localhost' = PASSWORD( '#{options[:password]}' );"
+    end
+  end
 end

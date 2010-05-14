@@ -19,4 +19,10 @@ class Database < ActiveRecord::Base
     ConnectedDatabase::create_user(:name => user, :password => userpwd)
     ConnectedDatabase::grant_permission(:dbname => dbname, :user => user)
   end
+  
+  def destroy_db
+    dbname = self.name
+    
+    ConnectedDatabase::destroy_database(:name => dbname)
+  end
 end

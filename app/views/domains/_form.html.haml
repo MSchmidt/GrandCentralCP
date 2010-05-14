@@ -18,3 +18,11 @@
   = f.label :mount_point
   %br/
   = f.text_field :mount_point
+  
+%p
+  #{f.label :php, 'PHP'}? :
+  = f.check_box :php
+  
+%p
+  #{f.label :rails}? :
+  = f.check_box :rails
