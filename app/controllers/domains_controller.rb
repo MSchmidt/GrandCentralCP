@@ -103,7 +103,8 @@ class DomainsController < ApplicationController
   # ADMIN only
   def destroy
     @domain = Domain.find(params[:id])
-    @domain.destroy_with_config
+    @domain.send_later(:destroy_config)
+    flash[:notice] = 'Domain was successfully destroyed.'
 
     respond_to do |format|
       format.html { redirect_to(domains_url) }
