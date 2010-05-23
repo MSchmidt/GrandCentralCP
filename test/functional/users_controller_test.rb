@@ -115,7 +115,7 @@ class UsersControllerTest < ActionController::TestCase
 		end
 		
 		should "update db_password" do
-		  #ConnectedDatabase::create_user(:name => @user.name, :password => @user.dbpassword)
+		  ConnectedDatabase::create_user(:name => @user.name, :password => @user.dbpassword)
 		  put :update_db_password, :user => { :dbpassword => 'newDBpassword' }
 		  assert_redirected_to databases_url
 		  assert_equal 'User DB Password was successfully changed.', flash[:notice]

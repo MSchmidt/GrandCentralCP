@@ -34,6 +34,13 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save        
+        #add ftp user
+        #group ftp-user must exist
+        system("useradd -g ftp-user -s /bin/false -d /var/www -p #{@user.password} #{@user.name}")
+
+        #permission
+        system("chmod -R #{@user.name} /var/www")
+
         flash[:notice] = "User was successfully created. Please save the password: #{@user.password}"
         format.html { redirect_to(users_url) }
         format.xml  { render :xml => @user, :status => :created, :location => @user }
@@ -105,7 +112,7 @@ class UsersController < ApplicationController
   
   def destroy
     @user = User.find(params[:id])
-    @user.destroy
+    system("userdel #{@user.name}") if @user.destroy
 
     respond_to do |format|
       format.html { redirect_to(users_url) }
