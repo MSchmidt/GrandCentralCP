@@ -4,11 +4,13 @@ class CreateUsers < ActiveRecord::Migration
       t.database_authenticatable
       t.boolean :admin, :null=>false, :default=>false
       t.string :dbpassword
+      t.string :name
       
       t.timestamps
     end
     
     add_index :users, :email, :unique => true
+    add_index :users, :name, :unique => true
     add_index :users, :admin
   end
 

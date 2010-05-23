@@ -49,11 +49,13 @@ ActiveRecord::Schema.define(:version => 20100503203735) do
     t.string   "password_salt",                     :default => "",    :null => false
     t.boolean  "admin",                             :default => false, :null => false
     t.string   "dbpassword"
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "users", ["admin"], :name => "index_users_on_admin"
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
+  add_index "users", ["name"], :name => "index_users_on_name", :unique => true
 
 end

@@ -2,10 +2,11 @@ require 'machinist/active_record'
 
 Sham.email 		{ Faker::Internet.free_email }
 Sham.password { User::generate_password }
-Sham.name 		{ Faker::Name.name }
+Sham.name 		{ Faker::Internet.user_name[0..15]}
 Sham.fqdn     { Faker::Internet.domain_name }
 
 User.blueprint do
+  name
 	email
 	password
 end

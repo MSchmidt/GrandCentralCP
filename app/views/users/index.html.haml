@@ -2,15 +2,18 @@
 
 %table
   %tr
+    %th Name
     %th E-Mail
     %th
 
   - @users.each do |user|
     %tr
       %td
-        = link_to h(user.email), user_path(user.id)
+        = link_to h(user.name), user_path(user.id)
         = '- logged in' if current_user == user
         = '(admin)' if user.admin
+      %td
+        = link_to h(user.email), "mailto:#{user.email}"
       %td
         = link_to 'Edit', edit_user_path(user)
         = link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete

@@ -49,9 +49,11 @@ class DomainsControllerTest < ActionController::TestCase
     end
 
     should "destroy domain" do
-      assert_difference('Domain.count', -1) do
-        delete :destroy, :id => @domain.id
-      end
+      #assert_difference('Domain.count', -1) do
+        assert_difference('Delayed::Job.count') do
+          delete :destroy, :id => @domain.id
+        end
+      #end
 
       assert_redirected_to domains_path
     end

@@ -7,8 +7,9 @@ class User < ActiveRecord::Base
   
   before_validation :set_default_password_if_needed
   
-  validates_uniqueness_of :email, :case_sensitive => false
-  validates_presence_of :email, :encrypted_password, :dbpassword
+  validates_uniqueness_of :name, :email, :case_sensitive => false
+  validates_length_of :name, :maximum => 16
+  validates_presence_of :email, :encrypted_password, :dbpassword, :name
   validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
   
   protected
