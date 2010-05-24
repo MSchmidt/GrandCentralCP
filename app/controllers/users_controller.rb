@@ -33,14 +33,8 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
 
     respond_to do |format|
-      if @user.save        
-        #add ftp user
-        #group ftp-user must exist
-        system("useradd -g ftp-user -s /bin/false -d /var/www -p #{@user.password} #{@user.name}")
-
-        #permission
-        system("chmod -R #{@user.name} /var/www")
-
+      if @user.save 
+        Delayed::Job.enqueue User.find(@user.id)
         flash[:notice] = "User was successfully created. Please save the password: #{@user.password}"
         format.html { redirect_to(users_url) }
         format.xml  { render :xml => @user, :status => :created, :location => @user }
