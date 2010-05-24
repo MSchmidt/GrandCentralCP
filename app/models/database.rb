@@ -12,12 +12,12 @@ class Database < ActiveRecord::Base
   
   def write_config
     dbname = self.name
-    user = self.user.email
+    username = self.user.name
     userpwd = self.user.dbpassword
     
     ConnectedDatabase::create_database(:name => dbname)
-    ConnectedDatabase::create_user(:name => user, :password => userpwd)
-    ConnectedDatabase::grant_permission(:dbname => dbname, :user => user)
+    ConnectedDatabase::create_user(:name => username, :password => userpwd)
+    ConnectedDatabase::grant_permission(:dbname => dbname, :user => username)
   end
   
   def destroy_db

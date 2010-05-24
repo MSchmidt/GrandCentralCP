@@ -33,10 +33,22 @@ class Domain < ActiveRecord::Base
       Dir.mkdir(WWW_DIR + folder)
       Dir.chdir(WWW_DIR + folder)
       
-      indexfile = "index.html"
-      if php
-        indexfile = "index.php"
+      if rails
+        #adduser deploy
+        #gem install mongrel_cluster
+        #a2enmod rewrite
+        #a2enmod proxy
+        #a2enmod proxy_http
+        #a2enmod proxy_balancer
+        system("chown deploy:deploy #{WWW_DIR + folder}")
+        system("mkdir -p current/public")
+        system("echo 'hello world' > current/public/index.html")
+        Dir.mkdir("/etc/mongrel_cluster")
+        system("chown deploy:deploy /etc/mongrel_cluster")
       end
+      
+      indexfile = "index.html"
+      indexfile = "index.php" if php
       
       File.open(indexfile, "w") do |f|
         f.write(index_template)
@@ -51,7 +63,7 @@ class Domain < ActiveRecord::Base
     IO.read(RAILS_ROOT + '/app/templates/'+file)
   end
   
-  def destroy_with_config
+  def destroy_config
     transaction do
       destroy
       begin
@@ -62,6 +74,7 @@ class Domain < ActiveRecord::Base
         
         Dir.chdir(VHOST_TARGET_DIR) #definend in config/initializers/gccp.rb
         File.delete('gccp_' + servername) if File.exist?('gccp_'+servername)
+        system("rm -rf #{WWW_DIR + folder}")
         
         system("/etc/init.d/apache2 reload")
         

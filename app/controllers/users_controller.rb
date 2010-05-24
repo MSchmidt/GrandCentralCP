@@ -33,7 +33,8 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
 
     respond_to do |format|
-      if @user.save
+      if @user.save 
+        Delayed::Job.enqueue User.find(@user.id)
         flash[:notice] = "User was successfully created. Please save the password: #{@user.password}"
         format.html { redirect_to(users_url) }
         format.xml  { render :xml => @user, :status => :created, :location => @user }
@@ -92,7 +93,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.update_attribute(:dbpassword, params[:user][:dbpassword])
-        ConnectedDatabase::change_user_password(:name => @user.email, :password => @user.dbpassword)
+        ConnectedDatabase::change_user_password(:name => @user.name, :password => @user.dbpassword)
         flash[:notice] = 'User DB Password was successfully changed.'
         format.html { redirect_to(databases_url) }
         format.xml  { head :ok }
@@ -105,7 +106,7 @@ class UsersController < ApplicationController
   
   def destroy
     @user = User.find(params[:id])
-    @user.destroy
+    system("userdel #{@user.name}") if @user.destroy
 
     respond_to do |format|
       format.html { redirect_to(users_url) }
