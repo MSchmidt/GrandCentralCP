@@ -11,5 +11,6 @@ group :test do
   gem 'webrat'
   gem 'shoulda'
   gem 'redgreen'
+  gem 'fakerfs', :require => false
 end
 
