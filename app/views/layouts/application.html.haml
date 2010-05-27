@@ -5,6 +5,7 @@
     %title= "GrandCentralCP: #{controller.controller_name} - #{controller.action_name}"
     = stylesheet_link_tag 'blueprint/screen'
     = stylesheet_link_tag 'application'
+    = javascript_include_tag 'mt-1.2.4-core'
     = javascript_include_tag 'application'
   %body
     #header
@@ -23,3 +24,6 @@
         .success= flash[:notice]   
     
       = yield
+
+    #infobar
+      = "#{@unsaved_domains_count} domains got changed. See what GCCP will do."

@@ -1,6 +1,7 @@
 class DomainsController < ApplicationController
   
   before_filter :is_admin, :except => [:index, :show, :edit, :update]
+  before_filter :check_for_unsaved, :only => [:index]
   
   # GET /domains
   # GET /domains.xml
@@ -110,6 +111,12 @@ class DomainsController < ApplicationController
       format.html { redirect_to(domains_url) }
       format.xml  { head :ok }
     end
+  end
+  
+  protected
+  def check_for_unsaved
+    @unsaved_domains = Domain.all(:conditions => "saved = 'f'")
+    @unsaved_domains_count = @unsaved_domains.count
   end
 end
 
