@@ -12,14 +12,24 @@ class User < ActiveRecord::Base
   validates_presence_of :email, :encrypted_password, :dbpassword, :name
   validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
 
+=begin
   def perform
+    write_config
+  end
+=end
+  
+  def write_config(pass)
     #add ftp user
     #group ftp-user must exist
-    system("useradd -g ftp-user -s /bin/false -d /var/www -p #{self.password} #{self.name}")
-
+    system("useradd -g ftp-user -s /bin/false -d /var/www -p #{pass} #{self.name}")
     #permission
-    system("chown -R #{self.name} #{WWW_DIR}")
-    system("chmod 777 #{WWW_DIR}") #777 zu Testzwecken
+    #system("chown -R #{self.name} #{WWW_DIR}")
+    #system("chmod 777 #{WWW_DIR}") #777 zu Testzwecken
+  end
+  
+  def destroy_config(name)
+    puts "userdel #{name}"
+    system("userdel #{name}")
   end
   
   protected
