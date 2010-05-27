@@ -1,0 +1,23 @@
+%h1 Listing domains
+
+%table
+  %tr
+    %th Domain
+    %th Folder
+    %th= 'User' if is_admin?
+    %th
+    %th
+    %th
+
+  - @domains.each do |domain|
+    %tr
+      %td= link_to h(domain.fqdn), "http://" + h(domain.fqdn), :target => "_blank"
+      %td=h domain.mount_point
+      %td=h domain.user.email if is_admin?
+      %td= link_to 'Show', domain
+      %td= link_to 'Edit', edit_domain_path(domain)
+      %td= link_to 'Destroy', domain, :confirm => 'Are you sure?', :method => :delete
+
+%br/
+
+= link_to 'New domain', new_domain_path

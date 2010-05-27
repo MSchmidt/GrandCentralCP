@@ -5,8 +5,11 @@
     %title= "GrandCentralCP: #{controller.controller_name} - #{controller.action_name}"
     = stylesheet_link_tag 'blueprint/screen'
     = stylesheet_link_tag 'application'
-    = javascript_include_tag 'mt-1.2.4-core'
+    = stylesheet_link_tag 'workbench'
+    = javascript_include_tag 'mootools-1.2.4-core'
+    = javascript_include_tag 'mootools-1.2.4.4-more'
     = javascript_include_tag 'application'
+    = javascript_include_tag 'workbench'
   %body
     #header
       %ul#top_navigation
