@@ -94,7 +94,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.update_attribute(:dbpassword, params[:user][:dbpassword])
-        ConnectedDatabase::change_user_password(:name => @user.name, :password => @user.dbpassword)
+        ConnectedDatabase.send_later(:change_user_password, :name => @user.name, :password => @user.dbpassword)
         flash[:notice] = 'User DB Password was successfully changed.'
         format.html { redirect_to(databases_url) }
         format.xml  { head :ok }
