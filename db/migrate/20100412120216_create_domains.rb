@@ -7,8 +7,9 @@ class CreateDomains < ActiveRecord::Migration
       t.boolean   :php,         :default => false, :null => false
       t.boolean   :rails,       :default => false, :null => false
       t.boolean   :saved,       :default => false, :null => false
+      t.integer   :saved_by,    :null => false
       t.boolean   :pending,     :default => true, :null => false
-      t.integer   :copy_of,     :default => nil, :null=>true
+      t.integer   :copy_of,     :default => nil, :null => true
 
       t.timestamps
     end

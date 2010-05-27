@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(:version => 20100503203735) do
     t.boolean  "php",         :default => false, :null => false
     t.boolean  "rails",       :default => false, :null => false
     t.boolean  "saved",       :default => false, :null => false
+    t.integer  "saved_by",                       :null => false
     t.boolean  "pending",     :default => true,  :null => false
     t.integer  "copy_of"
     t.datetime "created_at"

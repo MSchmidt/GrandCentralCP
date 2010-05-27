@@ -1,7 +1,7 @@
 class DomainsController < ApplicationController
   
   before_filter :is_admin, :except => [:index, :show, :edit, :update]
-  before_filter :check_for_unsaved, :only => [:index]
+  before_filter :check_for_unsaved
   
   # GET /domains
   # GET /domains.xml
@@ -61,6 +61,7 @@ class DomainsController < ApplicationController
   # ADMIN only
   def create
     @domain = Domain.new(params[:domain])
+    @domain.saved_by = current_user
     
     respond_to do |format|
       if @domain.save
@@ -115,7 +116,7 @@ class DomainsController < ApplicationController
   
   protected
   def check_for_unsaved
-    @unsaved_domains = Domain.all(:conditions => "saved = 'f'")
+    @unsaved_domains = Domain.all(:conditions => { :saved => false, :saved_by => current_user })
     @unsaved_domains_count = @unsaved_domains.count
   end
 end
