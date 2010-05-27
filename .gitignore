@@ -11,4 +11,3 @@ config/initializers/gccp.rb
 nbproject
 tmp
 .bundle
-vendor/bundler_gems
