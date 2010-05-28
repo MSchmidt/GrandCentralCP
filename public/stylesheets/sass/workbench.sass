@@ -4,10 +4,25 @@
   border: 1px solid red
 
 .domain
-  width: 200px
-  padding: 20px
-  background-color: #ccc
+  min-width: 200px
+  height: 90px
+  background-color: #e2e2e2
+  background: -webkit-gradient(linear, left top, left bottom, from(#e2e2e2), to(#a2a2a2))
+  background: -moz-linear-gradient(top,  #e2e2e2,  #a2a2a2)
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e2e2e2', endColorstr='#a2a2a2')
+  border: 1px solid #000
   -webkit-border-radius: 10px
   -moz-border-radius: 10px
-  -webkit-box-shadow: 0 4px 28px rgba(0, 0, 0, 1)
-  -moz-box-shadow: 6px 6px 16px rgba(0, 0, 0, 0.5)
+  .domain-nob
+    float: left
+    width: 15px
+    height: 100%
+    background: url(../images/nobs.png) 50% no-repeat
+    &:hover
+      cursor: move
+      
+  .domain-info
+    float: right
+    padding: 5px 10px
+    h1
+      color: #444

@@ -2,11 +2,13 @@
 
 #workbench
   - @domains.each do |domain|
-    %div.domain{:id => "domain#{domain.id}"}
-      %h1= h(domain.fqdn)
-      %div
-        = link_to 'Edit', edit_domain_path(domain)
-        = link_to 'Destroy', domain, :confirm => 'Are you sure?', :method => :delete
+    .domain{:id => "domain#{domain.id}"}
+      .domain-nob
+      .domain-info
+        %h1= h(domain.fqdn)
+        %div
+          = link_to 'Edit', edit_domain_path(domain)
+          = link_to 'Destroy', domain, :confirm => 'Are you sure?', :method => :delete
 
 %br/
 
