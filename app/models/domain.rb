@@ -84,4 +84,14 @@ class Domain < ActiveRecord::Base
       end
      end
   end
+  
+  def self.get_user_www_dir_structure
+    folders = Array.new
+    Dir.chdir(WWW_DIR)
+    Dir.glob(File.join("**", "**")) do |entry|
+      folders << entry if File.directory?(entry)
+    end
+    
+    return folders
+  end
 end

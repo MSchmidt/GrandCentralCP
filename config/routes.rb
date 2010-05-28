@@ -1,6 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
 
-  map.resources :domains, :databases, :users
+  map.resources :domains, :collection => { :folder_structure => :get }
+  map.resources :databases, :users
   map.resource :user, :only => {}, :collection => {:change_password => :get, :update_password => :put, :update_db_password => :put}
   map.admin 'admin', :controller => 'admin', :action => 'index'
 

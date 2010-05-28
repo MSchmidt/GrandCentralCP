@@ -17,5 +17,20 @@ window.addEvent('domready', function(){
 				console.log(element, 'left', droppable);
 			}
 		});
+		
+		i.getElement('.domain_edit').addEvent('click', function(event){
+			console.log('opening options for ' + i.id);
+			
+			if (i.getElement('.settings-bubble') == null) {
+				var settings_bubble = new Element('div', {
+					class: 'settings-bubble'
+				});
+				settings_bubble.fade('hide').inject(i).fade('in');
+			} else {
+				i.getElement('.settings-bubble').fade('toggle');
+			}
+			
+			event.stop();
+		});
 	});
 });

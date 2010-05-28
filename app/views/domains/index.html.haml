@@ -1,6 +1,7 @@
 %h1 Domain Workbench
 
 #workbench
+  .settings-bubble{:class => 'hidden'}
   - @domains.each do |domain|
     .domain{:id => "domain#{domain.id}"}
       .domain-nob
@@ -9,6 +10,8 @@
         %div
           = link_to 'Edit', edit_domain_path(domain)
           = link_to 'Destroy', domain, :confirm => 'Are you sure?', :method => :delete
+          = h(domain.mount_point)
+          = link_to '✎', '#edit', :class => 'domain_edit'
 
 %br/
 

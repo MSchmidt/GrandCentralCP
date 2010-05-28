@@ -4,6 +4,7 @@
   border: 1px solid red; }
 
 .domain {
+  position: absolute;
   min-width: 200px;
   height: 90px;
   background-color: #e2e2e2;
@@ -22,6 +23,19 @@
       cursor: move; }
   .domain .domain-info {
     float: right;
-    padding: 5px 10px; }
+    padding: 5px 10px;
+    text-align: right; }
     .domain .domain-info h1 {
       color: #444444; }
+
+.settings-bubble {
+  position: absolute;
+  right: -300px;
+  top: 30px;
+  width: 300px;
+  min-height: 200px;
+  color: white;
+  background-color: #333333;
+  border: 1px solid white;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px; }

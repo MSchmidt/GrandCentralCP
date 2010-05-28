@@ -114,6 +114,11 @@ class DomainsController < ApplicationController
     end
   end
   
+  def folder_structure
+    folders = Domain.get_user_www_dir_structure
+    render :json => folders
+  end
+  
   protected
   def check_for_unsaved
     @unsaved_domains = Domain.all(:conditions => { :saved => false, :saved_by => current_user })
