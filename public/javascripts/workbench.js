@@ -26,6 +26,10 @@ window.addEvent('domready', function(){
 					class: 'settings-bubble'
 				});
 				settings_bubble.fade('hide').inject(i).fade('in');
+				
+				var jsonRequest = new Request.JSON({url: "/domains/folder_structure.js", onSuccess: function(structure){
+					console.log(structure.folders);
+				}}).get();
 			} else {
 				i.getElement('.settings-bubble').fade('toggle');
 			}

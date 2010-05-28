@@ -115,8 +115,12 @@ class DomainsController < ApplicationController
   end
   
   def folder_structure
-    folders = Domain.get_user_www_dir_structure
-    render :json => folders
+    folders = { :folders => Domain.get_user_www_dir_structure }
+    
+    respond_to do |format|
+      format.html { redirect_to(domains_url) }
+      format.js { render :json => folders }
+    end
   end
   
   protected
