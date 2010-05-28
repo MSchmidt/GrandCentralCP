@@ -41,6 +41,7 @@ class ActionController::TestCase
   include Devise::TestHelpers
 end
 
+require "faker"
 require "redgreen"
 require File.dirname(__FILE__) + '/blueprints'
 require "webrat"
