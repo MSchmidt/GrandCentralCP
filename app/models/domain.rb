@@ -86,10 +86,16 @@ class Domain < ActiveRecord::Base
   end
   
   def self.get_user_www_dir_structure
-    folders = Array.new
+    folders = Hash.new{ |h,k| h[k] = Hash.new &h.default_proc }
+    
     Dir.chdir(WWW_DIR)
-    Dir.glob(File.join("**", "**")) do |entry|
-      folders << entry if File.directory?(entry)
+    Dir.glob(File.join("**", "**")) do |path|
+      if File.directory?(path)
+        sub = folders
+        path.split('/').each do |dir|
+          sub = sub[dir]
+        end
+      end
     end
     
     return folders

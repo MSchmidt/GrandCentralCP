@@ -45,4 +45,11 @@
     padding: 0; }
     .settings-bubble ul li {
       height: 30px;
-      border-bottom: 1px solid white; }
+      padding: 4px 20px 5px;
+      font-size: 1.5em;
+      border-bottom: 1px solid black;
+      background-color: #444444; }
+      .settings-bubble ul li.extendable {
+        background: #444444 url(../images/browser_arrow.png) no-repeat 95%; }
+      .settings-bubble ul li:hover {
+        background-color: #666666; }

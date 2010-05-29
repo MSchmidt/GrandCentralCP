@@ -3,10 +3,7 @@
 #workbench
   #settings_bubble_blueprint.settings-bubble{:class => 'hidden'}
     Settings
-    %ul
-      %li hey
-      %li la
-      %li lis
+    .browser
   - @domains.each do |domain|
     .domain{:id => "domain#{domain.id}"}
       .domain-nob

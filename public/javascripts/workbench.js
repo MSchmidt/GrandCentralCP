@@ -32,9 +32,31 @@ window.addEvent('domready', function(){
 			var settings_bubble = $('settings_bubble_blueprint').clone().removeClass('hidden');
 			settings_bubble.fade('hide').inject(parent_element).fade('in');
 			
-			var jsonRequest = new Request.JSON({url: "/domains/folder_structure.js", onSuccess: function(structure){
-				//settings_bubble.getElement('ul');
-			}}).get();
+			var jsonRequest = new Request({
+				url: "/domains/folder_structure.xml",
+				onSuccess: function(response){
+					temp = new Element('div').set('html', response);
+					
+					// hide sub-trees
+					temp.getElements('.is_sub').each(function(e){
+						e.addClass('hidden');
+					});
+					
+					// make sub-holders extendable
+					temp.getElements('.has_sub').each(function(e){
+						e.addClass('extendable');
+					});
+					
+					// make all selectable
+					temp.getElements('li').each(function(e){
+						e.addEvent('click', function(event){
+							e.highlight('#ff8', '#444');
+						});
+					});
+					
+					temp.inject(settings_bubble.getElement('.browser'));
+				}
+			}).get();
 		} else {
 			parent_element.getElement('.settings-bubble').fade('toggle');
 		}
