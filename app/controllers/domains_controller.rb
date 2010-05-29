@@ -129,4 +129,3 @@ class DomainsController < ApplicationController
     @unsaved_domains_count = @unsaved_domains.count
   end
 end
-

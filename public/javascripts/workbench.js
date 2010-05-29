@@ -20,21 +20,23 @@ window.addEvent('domready', function(){
 		
 		i.getElement('.domain_edit').addEvent('click', function(event){
 			console.log('opening options for ' + i.id);
-			
-			if (i.getElement('.settings-bubble') == null) {
-				var settings_bubble = new Element('div', {
-					class: 'settings-bubble'
-				});
-				settings_bubble.fade('hide').inject(i).fade('in');
-				
-				var jsonRequest = new Request.JSON({url: "/domains/folder_structure.js", onSuccess: function(structure){
-					console.log(structure.folders);
-				}}).get();
-			} else {
-				i.getElement('.settings-bubble').fade('toggle');
-			}
-			
+			open_preferences(i);
 			event.stop();
 		});
 	});
+	
+	open_preferences($('domain1'));
+	
+	function open_preferences(parent_element) {
+		if (parent_element.getElement('.settings-bubble') == null) {
+			var settings_bubble = $('settings_bubble_blueprint').clone().removeClass('hidden');
+			settings_bubble.fade('hide').inject(parent_element).fade('in');
+			
+			var jsonRequest = new Request.JSON({url: "/domains/folder_structure.js", onSuccess: function(structure){
+				//settings_bubble.getElement('ul');
+			}}).get();
+		} else {
+			parent_element.getElement('.settings-bubble').fade('toggle');
+		}
+	}
 });

@@ -1,7 +1,12 @@
 %h1 Domain Workbench
 
 #workbench
-  .settings-bubble{:class => 'hidden'}
+  #settings_bubble_blueprint.settings-bubble{:class => 'hidden'}
+    Settings
+    %ul
+      %li hey
+      %li la
+      %li lis
   - @domains.each do |domain|
     .domain{:id => "domain#{domain.id}"}
       .domain-nob
