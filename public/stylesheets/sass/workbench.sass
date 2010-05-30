@@ -29,28 +29,50 @@
     h1
       color: #444
 
+$bubble_width: 300px
+
 .settings-bubble
   position: absolute
-  right: -300px
+  right: -$bubble_width
   top: 30px
-  width: 300px
+  width: $bubble_width
   min-height: 200px
   color: #fff
   background-color: #333
   border: 1px solid #fff
   -webkit-border-radius: 10px
   -moz-border-radius: 10px
-  ul
-    list-style: none
-    margin: 0
-    padding: 0
-    li
-      height: 30px
-      padding: 4px 20px 5px
-      font-size: 1.5em
-      border-bottom: 1px solid #000
-      background-color: #444
-      &.extendable
-        background: #444 url(../images/browser_arrow.png) no-repeat 95%
-      &:hover
-        background-color: #666
+  .browser
+    width: $bubble_width
+    overflow: hidden
+    ul
+      display: block
+      float: left
+      width: $bubble_width
+      list-style: none
+      margin: 0
+      padding: 0
+      li
+        position: relative
+        height: 40px
+        font-size: 1.5em
+        border-bottom: 1px solid #000
+        background-color: #444        
+        &:hover
+          background-color: #666
+        a.select_link
+          position: absolute
+          display: block
+          width: $bubble_width - 40px
+          height: 30px
+          padding: 5px 20px
+          color: #fff
+          text-decoration: none
+          outline: none
+        a.extend_link
+          position: absolute
+          right: 0
+          width: 40px
+          height: 100%
+          background: url(../images/browser_arrow.png) no-repeat 50%
+          outline: none

@@ -35,26 +35,11 @@ window.addEvent('domready', function(){
 			var jsonRequest = new Request({
 				url: "/domains/folder_structure.xml",
 				onSuccess: function(response){
-					temp = new Element('div').set('html', response);
-					
-					// hide sub-trees
-					temp.getElements('.is_sub').each(function(e){
-						e.addClass('hidden');
+					var fibro = new MooFibro({
+						container: settings_bubble.getElement('.browser'),
+						tree: response,
+						animate: true
 					});
-					
-					// make sub-holders extendable
-					temp.getElements('.has_sub').each(function(e){
-						e.addClass('extendable');
-					});
-					
-					// make all selectable
-					temp.getElements('li').each(function(e){
-						e.addEvent('click', function(event){
-							e.highlight('#ff8', '#444');
-						});
-					});
-					
-					temp.inject(settings_bubble.getElement('.browser'));
 				}
 			}).get();
 		} else {

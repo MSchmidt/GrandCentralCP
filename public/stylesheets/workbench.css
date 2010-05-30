@@ -39,17 +39,37 @@
   border: 1px solid white;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px; }
-  .settings-bubble ul {
-    list-style: none;
-    margin: 0;
-    padding: 0; }
-    .settings-bubble ul li {
-      height: 30px;
-      padding: 4px 20px 5px;
-      font-size: 1.5em;
-      border-bottom: 1px solid black;
-      background-color: #444444; }
-      .settings-bubble ul li.extendable {
-        background: #444444 url(../images/browser_arrow.png) no-repeat 95%; }
-      .settings-bubble ul li:hover {
-        background-color: #666666; }
+  .settings-bubble .browser {
+    width: 300px;
+    overflow: hidden; }
+    .settings-bubble .browser ul {
+      display: block;
+      float: left;
+      width: 300px;
+      list-style: none;
+      margin: 0;
+      padding: 0; }
+      .settings-bubble .browser ul li {
+        position: relative;
+        height: 40px;
+        font-size: 1.5em;
+        border-bottom: 1px solid black;
+        background-color: #444444; }
+        .settings-bubble .browser ul li:hover {
+          background-color: #666666; }
+        .settings-bubble .browser ul li a.select_link {
+          position: absolute;
+          display: block;
+          width: 260px;
+          height: 30px;
+          padding: 5px 20px;
+          color: white;
+          text-decoration: none;
+          outline: none; }
+        .settings-bubble .browser ul li a.extend_link {
+          position: absolute;
+          right: 0;
+          width: 40px;
+          height: 100%;
+          background: url(../images/browser_arrow.png) no-repeat 50%;
+          outline: none; }
