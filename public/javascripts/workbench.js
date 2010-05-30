@@ -38,7 +38,13 @@ window.addEvent('domready', function(){
 					var fibro = new MooFibro(parent_element.getElement('span.domain_path'), {
 						container: settings_bubble.getElement('.browser'),
 						tree: response,
-						animate: false
+						animate: false,
+						onSelect: function(selected){
+							console.log('select: ' + selected);
+						},
+						onExtend: function(extended, path, direction){
+							console.log('extend: ' + extended + ' - ' + path + ' | ' + direction);
+						}
 					});
 				}
 			}).get();

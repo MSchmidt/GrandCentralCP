@@ -14,14 +14,14 @@ provides: MooFibro
 ...
 */
 var MooFibro = new Class({
-	Implements: [Options],
+	Implements: [Options,Events],
 	
 	options: {
-		container: $empty,
-		tree: $empty,
-		animate: true,
-		seperator: '/',
-		back_label: 'go back'
+		container: $empty,			// block element to hold complete browser
+		tree: $empty,				// ul/li tree with folder structure
+		animate: 200,				// animation speed, false disables animation
+		seperator: '/',				// directory seperator
+		back_label: 'go back'		// label for first 'back' li
 	},
 	
 	initialize: function(target, options) {
@@ -92,8 +92,10 @@ var MooFibro = new Class({
 			a.inject(e);
 			
 			a.addEvent('click', function(event){
-				this.target.set('html', this.getCurrentPath() + a.get('html'));
+				var target_path = this.getCurrentPath() + a.get('html');
+				this.target.set('html', target_path);
 				e.highlight('#ff8', '#444');
+				this.fireEvent('select', [target_path]);
 				event.stop();
 			}.bind(this));
 		}, this);
@@ -107,12 +109,11 @@ var MooFibro = new Class({
 					'click': function(event){
 						var wanted_view_name = e.getElement('a.select_link').get('html');
 						this.current_path.push(wanted_view_name);
-						console.log('extend ' + wanted_view_name);
+						this.fireEvent('extend', [wanted_view_name, this.getCurrentPath(), '1']);
 						
 						this.current_level++;
 						this.calculateAndSetSlidingDivWidth();
 						
-						console.log('getting ' + '.'+wanted_view_name+'-sub as level ' + this.current_level);
 						var new_branch = branch.getFirst('.'+wanted_view_name+'-sub').getFirst('ul').clone();
 						this.scanAndPrepareBranch(new_branch);
 						
@@ -150,6 +151,8 @@ var MooFibro = new Class({
 					this.current_level = current_level - 1;
 					this.current_path.pop();
 					
+					this.fireEvent('extend', ['back', this.getCurrentPath(), '-1']);
+					
 					if (this.animate && Fx.Scroll) {
 						new Fx.Scroll(this.container, {
 							duration: 200,
@@ -164,7 +167,6 @@ var MooFibro = new Class({
 						this.sliding_div.getLast('ul').destroy();
 					}
 					
-					console.log('back to level ' + this.current_level);
 					event.stop();
 				}.bind(this)
 			}
