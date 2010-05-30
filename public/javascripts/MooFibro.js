@@ -53,7 +53,7 @@ var MooFibro = new Class({
 		this.preselected = (this.options.preselected ? this.options.preselected : this.target.get('html')).split(this.seperator);
 	
 		this.prepareTree();
-		//this.autoselect(this.preselected);
+		this.autoselect(this.preselected);
 	},
 	
 	prepareTree: function() {
@@ -100,8 +100,9 @@ var MooFibro = new Class({
 			a.addEvent('click', function(event){
 				var target_path = this.getCurrentPath() + a.get('html');
 				this.target.set('html', target_path);
-				a.highlight('#ff8', '#c6e7ad');
-				e.setStyle('background-color', '#99b286');
+				this.tree.getElements('li').removeClass('selected');
+				e.addClass('selected');
+				a.highlight('#ff8', e.getStyle('background-color'));
 				this.fireEvent('select', [target_path]);
 				event.stop();
 			}.bind(this));
@@ -114,40 +115,48 @@ var MooFibro = new Class({
 				'class': 'extend_link',
 				'events': {
 					'click': function(event){
-						var wanted_view_name = e.getElement('a.select_link').get('html');
-						this.current_path.push(wanted_view_name);
-						this.fireEvent('extend', [wanted_view_name, this.getCurrentPath(), '1']);
-						
-						this.current_level++;
-						this.calculateAndSetSlidingDivWidth();
-						
-						var new_branch = branch.getFirst('.'+wanted_view_name+'-sub').getFirst('ul');
-						
-						// scan branch if not happened yet
-						if (!this.scanned_branches.contains(this.getCurrentPath())) {
-							this.scanAndPrepareBranch(new_branch);
-
-							if (this.current_level > 0) {
-								this.addBackButtonToBranch(new_branch, this.current_level);
-							}
-							// save branch path to avoid double scanning
-							this.scanned_branches.push(this.getCurrentPath());
-						}
-						
-						new_branch.inject(this.sliding_div);
-						
-						if (this.animate && Fx.Scroll) {
-							new Fx.Scroll(this.container, {duration: this.animate}).start(this.current_level * this.container_width);
-						} else {
-							this.container.scrollTo(this.current_level * this.container_width);
-						}
-						
+						this.extendBranch(branch, e.getElement('a.select_link').get('html'));
 						event.stop();
 					}.bind(this)
 				}
 			});
 			a.inject(e);
 		}, this);
+	},
+	
+	extendBranch: function(branch, wanted_branch_name) {
+		this.current_path.push(wanted_branch_name);
+		this.fireEvent('extend', [wanted_branch_name, this.getCurrentPath(), '1']);
+		
+		this.current_level++;
+		this.calculateAndSetSlidingDivWidth();
+		
+		var new_branch = branch.getFirst('.'+wanted_branch_name+'-sub');
+		if (new_branch)
+			new_branch = new_branch.getFirst('ul');
+		else
+			return null;
+		
+		// scan branch if not happened yet
+		if (!this.scanned_branches.contains(this.getCurrentPath())) {
+			this.scanAndPrepareBranch(new_branch);
+
+			if (this.current_level > 0) {
+				this.addBackButtonToBranch(new_branch, this.current_level);
+			}
+			// save branch path to avoid double scanning
+			this.scanned_branches.push(this.getCurrentPath());
+		}
+		
+		new_branch.inject(this.sliding_div);
+		
+		if (this.animate && Fx.Scroll) {
+			new Fx.Scroll(this.container, {duration: this.animate}).start(this.current_level * this.container_width);
+		} else {
+			this.container.scrollTo(this.current_level * this.container_width);
+		}
+		
+		return new_branch;
 	},
 	
 	calculateAndSetSlidingDivWidth: function() {
@@ -167,12 +176,12 @@ var MooFibro = new Class({
 						new Fx.Scroll(this.container, {
 							duration: this.animate,
 							onComplete: function() {
-								this.removeLast();
+								this.removeLastBranch();
 							}.bind(this)
 						}).start(this.current_level * this.container_width);
 					} else {
 						this.container.scrollTo(this.current_level * this.container_width);
-						this.removeLast();
+						this.removeLastBranch();
 					}
 					
 					event.stop();
@@ -185,11 +194,34 @@ var MooFibro = new Class({
 		temp.inject(branch, 'top');
 	},
 	
-	removeLast: function() {
+	removeLastBranch: function() {
 		var branch_name = this.current_path.pop();
 		var element_to_remove = this.sliding_div.getLast('ul');
 		element_to_remove.inject(element_to_remove.getPrevious('ul').getFirst('.'+branch_name+'-sub'));
 		this.calculateAndSetSlidingDivWidth();
 		this.fireEvent('extend', ['back', this.getCurrentPath(), '-1']);
+	},
+	
+	autoselect: function(path) {
+		// disable animation for auto select
+		var temp_animate = this.animate;
+		this.animate = false;
+		
+		var current_branch = this.tree;
+		path.each(function(dir, k){
+			if (!current_branch) return;
+			
+			if (k < (path.length - 1)) {
+				current_branch = this.extendBranch(current_branch, dir);
+			} else {
+				current_branch.getChildren('li:not(.is_sub)').each(function(li){
+					if (li.getFirst('a').get('html') == dir) {
+						li.addClass('selected');
+					}
+				}, this);
+			}
+		}, this);
+		
+		this.animate = temp_animate;
 	}
 });

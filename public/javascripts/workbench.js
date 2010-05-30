@@ -19,14 +19,13 @@ window.addEvent('domready', function(){
 		});
 		
 		i.getElement('.domain_edit').addEvent('click', function(event){
-			console.log('opening options for ' + i.id);
 			open_preferences(i);
 			event.stop();
 		});
 	});
 	
-	open_preferences($('domain1'));
-	
+	//open_preferences($('domain1'));
+		
 	function open_preferences(parent_element) {
 		if (parent_element.getElement('.settings-bubble') == null) {
 			var settings_bubble = $('settings_bubble_blueprint').clone().removeClass('hidden');
@@ -38,7 +37,7 @@ window.addEvent('domready', function(){
 					var fibro = new MooFibro(parent_element.getElement('span.domain_path'), {
 						container: settings_bubble.getElement('.browser'),
 						tree: response,
-						preselected: 'more/even_more/really_deep',
+						//preselected: 'more/eeven_more/really_deep',
 						animate: true,
 						onSelect: function(selected){
 							console.log('select: ' + selected);
