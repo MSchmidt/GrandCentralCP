@@ -35,10 +35,10 @@ window.addEvent('domready', function(){
 			var jsonRequest = new Request({
 				url: "/domains/folder_structure.xml",
 				onSuccess: function(response){
-					var fibro = new MooFibro({
+					var fibro = new MooFibro(parent_element.getElement('span.domain_path'), {
 						container: settings_bubble.getElement('.browser'),
 						tree: response,
-						animate: true
+						animate: false
 					});
 				}
 			}).get();

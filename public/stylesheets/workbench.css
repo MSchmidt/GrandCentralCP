@@ -40,8 +40,7 @@
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px; }
   .settings-bubble .browser {
-    width: 300px;
-    overflow: hidden; }
+    width: 300px; }
     .settings-bubble .browser ul {
       display: block;
       float: left;
