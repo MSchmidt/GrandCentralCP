@@ -38,7 +38,8 @@ window.addEvent('domready', function(){
 					var fibro = new MooFibro(parent_element.getElement('span.domain_path'), {
 						container: settings_bubble.getElement('.browser'),
 						tree: response,
-						animate: false,
+						preselected: 'more/even_more/really_deep',
+						animate: true,
 						onSelect: function(selected){
 							console.log('select: ' + selected);
 						},

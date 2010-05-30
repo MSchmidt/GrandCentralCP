@@ -19,6 +19,7 @@ var MooFibro = new Class({
 	options: {
 		container: $empty,			// block element to hold complete browser
 		tree: $empty,				// ul/li tree with folder structure
+		preselected: false,			// li to select upon startup
 		animate: 200,				// animation speed, false disables animation
 		seperator: '/',				// directory seperator
 		back_label: 'go back'		// label for first 'back' li
@@ -45,11 +46,14 @@ var MooFibro = new Class({
 			this.tree = temp.getFirst();
 		}
 		
-		this.animate = this.options.animate;
+		this.animate = this.options.animate == true ? 200 : this.options.animate;
 		this.seperator = this.options.seperator;
 		this.back_label = this.options.back_label;
+		
+		this.preselected = (this.options.preselected ? this.options.preselected : this.target.get('html')).split(this.seperator);
 	
 		this.prepareTree();
+		//this.autoselect(this.preselected);
 	},
 	
 	prepareTree: function() {
@@ -59,6 +63,8 @@ var MooFibro = new Class({
 		
 		this.current_level = 0;
 		this.current_path = new Array();
+		
+		this.scanned_branches = new Array();
 		
 		// tree level 0
 		this.scanAndPrepareBranch(this.tree);
@@ -94,7 +100,8 @@ var MooFibro = new Class({
 			a.addEvent('click', function(event){
 				var target_path = this.getCurrentPath() + a.get('html');
 				this.target.set('html', target_path);
-				e.highlight('#ff8', '#444');
+				a.highlight('#ff8', '#c6e7ad');
+				e.setStyle('background-color', '#99b286');
 				this.fireEvent('select', [target_path]);
 				event.stop();
 			}.bind(this));
@@ -114,17 +121,23 @@ var MooFibro = new Class({
 						this.current_level++;
 						this.calculateAndSetSlidingDivWidth();
 						
-						var new_branch = branch.getFirst('.'+wanted_view_name+'-sub').getFirst('ul').clone();
-						this.scanAndPrepareBranch(new_branch);
+						var new_branch = branch.getFirst('.'+wanted_view_name+'-sub').getFirst('ul');
 						
-						if (this.current_level > 0) {
-							this.addBackButtonToBranch(new_branch, this.current_level);
+						// scan branch if not happened yet
+						if (!this.scanned_branches.contains(this.getCurrentPath())) {
+							this.scanAndPrepareBranch(new_branch);
+
+							if (this.current_level > 0) {
+								this.addBackButtonToBranch(new_branch, this.current_level);
+							}
+							// save branch path to avoid double scanning
+							this.scanned_branches.push(this.getCurrentPath());
 						}
 						
 						new_branch.inject(this.sliding_div);
 						
 						if (this.animate && Fx.Scroll) {
-							new Fx.Scroll(this.container, {duration: 200}).start(this.current_level * this.container_width);
+							new Fx.Scroll(this.container, {duration: this.animate}).start(this.current_level * this.container_width);
 						} else {
 							this.container.scrollTo(this.current_level * this.container_width);
 						}
@@ -149,22 +162,17 @@ var MooFibro = new Class({
 			'events': {
 				'click': function(event) {
 					this.current_level = current_level - 1;
-					this.current_path.pop();
-					
-					this.fireEvent('extend', ['back', this.getCurrentPath(), '-1']);
 					
 					if (this.animate && Fx.Scroll) {
 						new Fx.Scroll(this.container, {
-							duration: 200,
+							duration: this.animate,
 							onComplete: function() {
-								this.calculateAndSetSlidingDivWidth();
-								this.sliding_div.getLast('ul').destroy();
+								this.removeLast();
 							}.bind(this)
 						}).start(this.current_level * this.container_width);
 					} else {
 						this.container.scrollTo(this.current_level * this.container_width);
-						this.calculateAndSetSlidingDivWidth();
-						this.sliding_div.getLast('ul').destroy();
+						this.removeLast();
 					}
 					
 					event.stop();
@@ -175,5 +183,13 @@ var MooFibro = new Class({
 		var temp = new Element('li');
 		back_button.inject(temp);
 		temp.inject(branch, 'top');
+	},
+	
+	removeLast: function() {
+		var branch_name = this.current_path.pop();
+		var element_to_remove = this.sliding_div.getLast('ul');
+		element_to_remove.inject(element_to_remove.getPrevious('ul').getFirst('.'+branch_name+'-sub'));
+		this.calculateAndSetSlidingDivWidth();
+		this.fireEvent('extend', ['back', this.getCurrentPath(), '-1']);
 	}
 });
