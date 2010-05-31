@@ -17,12 +17,12 @@ var MooFibro = new Class({
 	Implements: [Options,Events],
 	
 	options: {
-		container: $empty,			// block element to hold complete browser
-		tree: $empty,				// ul/li tree with folder structure
-		preselected: false,			// li to select upon startup
-		animate: 200,				// animation speed, false disables animation
-		seperator: '/',				// directory seperator
-		back_label: 'go back'		// label for first 'back' li
+		container: $empty,				// block element to hold complete browser
+		tree: $empty,					// ul/li tree with folder structure
+		preselected: false,				// li to select upon startup
+		animate: 200,					// animation speed, false disables animation
+		seperator: '/',					// directory seperator
+		back_label: '&laquo; go back'	// label for first 'back' li
 	},
 	
 	initialize: function(target, options) {
@@ -100,7 +100,7 @@ var MooFibro = new Class({
 			a.addEvent('click', function(event){
 				var target_path = this.getCurrentPath() + a.get('html');
 				this.target.set('html', target_path);
-				this.tree.getElements('li').removeClass('selected');
+				this.sliding_div.getElements('li').removeClass('selected');
 				e.addClass('selected');
 				a.highlight('#ff8', e.getStyle('background-color'));
 				this.fireEvent('select', [target_path]);
