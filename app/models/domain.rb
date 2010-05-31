@@ -15,7 +15,7 @@ class Domain < ActiveRecord::Base
       servername = self.fqdn
       serveralias = "www." + servername
       email = self.user.email
-      folder = self.mount_point
+      path = WWW_DIR + '/' + self.mount_point
       php = self.php
       rails = self.rails
       
