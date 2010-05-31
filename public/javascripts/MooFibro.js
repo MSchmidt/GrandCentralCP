@@ -125,17 +125,17 @@ var MooFibro = new Class({
 	},
 	
 	extendBranch: function(branch, wanted_branch_name) {
-		this.current_path.push(wanted_branch_name);
-		this.fireEvent('extend', [wanted_branch_name, this.getCurrentPath(), '1']);
-		
-		this.current_level++;
-		this.calculateAndSetSlidingDivWidth();
-		
 		var new_branch = branch.getFirst('.'+wanted_branch_name+'-sub');
 		if (new_branch)
 			new_branch = new_branch.getFirst('ul');
 		else
 			return null;
+		
+		this.current_path.push(wanted_branch_name);
+		this.fireEvent('extend', [wanted_branch_name, this.getCurrentPath(), '1']);
+
+		this.current_level++;
+		this.calculateAndSetSlidingDivWidth();
 		
 		// scan branch if not happened yet
 		if (!this.scanned_branches.contains(this.getCurrentPath())) {

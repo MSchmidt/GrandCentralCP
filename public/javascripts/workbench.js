@@ -7,6 +7,7 @@ window.addEvent('domready', function(){
 			onDrop: function(element, droppable, event){
 				if (!droppable) console.log(element, ' dropped on nothing');
 				else console.log(element, 'dropped on', droppable, 'event', event);
+				$('infobar').fade('hide').fade('in');
 			},
 
 			onEnter: function(element, droppable){
