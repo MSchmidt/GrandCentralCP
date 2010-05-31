@@ -10,3 +10,4 @@ config/initializers/gccp.rb
 *~
 nbproject
 tmp
+.bundle
