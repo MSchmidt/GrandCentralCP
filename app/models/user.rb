@@ -27,9 +27,9 @@ class User < ActiveRecord::Base
     #system("chmod 777 #{WWW_DIR}") #777 zu Testzwecken
   end
   
-  def destroy_config(name)
-    puts "userdel #{name}"
-    system("userdel #{name}")
+  def destroy_config
+    system("userdel #{self.name}")
+    self.destroy
   end
   
   protected
@@ -38,7 +38,6 @@ class User < ActiveRecord::Base
     self.password = User::generate_password if self.encrypted_password.blank?
     self.dbpassword = User::generate_password if self.dbpassword.blank?
   end
-  
   
   public
   

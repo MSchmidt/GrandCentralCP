@@ -47,7 +47,10 @@ class UsersControllerTest < ActionController::TestCase
 		
 		should "destroy user" do
 		  assert_difference('User.count', -1) do
-        delete :destroy, :id => @user.id
+		    assert_difference('Delayed::Job.count') do
+          delete :destroy, :id => @user.id
+          @user.destroy_config #name of User method which is called by delayed_job
+        end
       end
       
       assert_redirected_to users_url
