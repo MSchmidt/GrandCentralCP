@@ -26,7 +26,14 @@ class User < ActiveRecord::Base
     #system("chown -R #{self.name} #{WWW_DIR}")
     #system("chmod 777 #{WWW_DIR}") #777 zu Testzwecken
   end
-  
+
+  def update_config(pass, oldname)
+    pass = " -p "+pass if pass.any?
+    
+    system("usermod#{pass} -l #{self.name} #{oldname}")
+    puts "usermod#{pass} -l #{self.name} #{oldname}"
+  end
+    
   def destroy_config
     system("userdel #{self.name}")
     self.destroy

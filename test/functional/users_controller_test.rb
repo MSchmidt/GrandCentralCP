@@ -40,8 +40,10 @@ class UsersControllerTest < ActionController::TestCase
 			assert_response :success
 		end
 		
-		should "update user" do		  
-		  put :update, :id => @user.id, :user => {:email => 'new@email.com'}
+		should "update user" do
+		  assert_difference('Delayed::Job.count') do 
+		    put :update, :id => @user.id, :user => {:name => 'new', :email => 'new@email.com'}
+		  end
 		  assert_redirected_to user_url(assigns(:user))
 		end
 		

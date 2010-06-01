@@ -52,10 +52,12 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
+    oldname = @user.name
 
     respond_to do |format|
       if @user.update_attributes(params[:user])
-        if params[:user][:password]
+        @user.send_later(:update_config, @user.password, oldname)
+        if params[:user][:password].any?
           flash[:notice] = "User was successfully updated. Please save the new password: #{@user.password}"
         else
           flash[:notice] = "User was successfully updated."
@@ -78,6 +80,7 @@ class UsersController < ApplicationController
     
     respond_to do |format|
       if @user.valid_password?(params[:old_password]) && (params[:user][:password] == params[:user][:password_confirmation]) && params[:user][:password] && @user.update_attribute(:password, params[:user][:password])
+        @user.send_later(:update_config, @user.password)
         flash[:notice] = 'User Password was successfully changed.'
         format.html { redirect_to(user_root_url) }
         format.xml  { head :ok }
