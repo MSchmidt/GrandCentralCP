@@ -1,3 +1,8 @@
 config:
   vhost_target_dir: /etc/apache2/sites-available
   www_dir: /var/www
+  
+firstadmin:
+  name: admin
+  email: admin@gccp.org
+  password: pass
