@@ -27,11 +27,16 @@ class User < ActiveRecord::Base
     #system("chmod 777 #{WWW_DIR}") #777 zu Testzwecken
   end
 
-  def update_config(pass, oldname)
+  def update_config(pass, oldname = nil)
     pass = " -p "+pass if pass.any?
+    if oldname
+      user = "-l "+self.name+" "+oldname
+    else
+      user = self.name
+    end
     
-    system("usermod#{pass} -l #{self.name} #{oldname}")
-    puts "usermod#{pass} -l #{self.name} #{oldname}"
+    system("usermod#{pass} #{user}")
+    puts "usermod#{pass} #{user}"
   end
     
   def destroy_config
