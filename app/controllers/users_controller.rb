@@ -33,8 +33,7 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
 
     respond_to do |format|
-      if @user.save 
-        #Delayed::Job.enqueue User.find(@user.id)
+      if @user.save
         @user.send_later(:write_config, @user.password)
         flash[:notice] = "User was successfully created. Please save the password: #{@user.password}"
         format.html { redirect_to(users_url) }
@@ -57,7 +56,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.update_attributes(params[:user])
         @user.send_later(:update_config, @user.password, oldname)
-        if params[:user][:password].any?
+        unless params[:user][:password].blank?
           flash[:notice] = "User was successfully updated. Please save the new password: #{@user.password}"
         else
           flash[:notice] = "User was successfully updated."

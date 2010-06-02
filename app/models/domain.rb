@@ -54,11 +54,11 @@ class Domain < ActiveRecord::Base
         servername = self.fqdn
         folder = self.mount_point
         
-        system("a2dissite gccp_#{servername}")
+        system("a2dissite #{VHOST_PREFIX+servername}")
         
-        Dir.chdir(VHOST_TARGET_DIR) #definend in config/initializers/gccp.rb
-        File.delete('gccp_' + servername) if File.exist?('gccp_'+servername)
-        system("rm -rf #{WWW_DIR + folder}")
+        vhost_path = File.join(VHOST_TARGET_DIR, VHOST_PREFIX + servername)
+        File.delete(vhost_path) if File.exist?(vhost_path)
+        #system("rm -rf " + File.join(WWW_DIR, self.mount_point))
         
         system("/etc/init.d/apache2 reload")
         

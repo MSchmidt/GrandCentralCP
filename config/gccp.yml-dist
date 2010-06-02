@@ -4,6 +4,6 @@ config:
   vhost_prefix: gccp_
   
 firstadmin:
-  name: admin
+  username: admin
   email: admin@gccp.org
   password: pass
