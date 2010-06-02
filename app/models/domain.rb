@@ -15,44 +15,30 @@ class Domain < ActiveRecord::Base
       servername = self.fqdn
       serveralias = "www." + servername
       email = self.user.email
-      path = WWW_DIR + '/' + self.mount_point
+      path = File.join(WWW_DIR,self.mount_point)
       php = self.php
       rails = self.rails
       
       vhost_template = ERB.new(read_template('apache2_vhost.conf')).result(binding)
       index_template = ERB.new(read_template('index.html')).result(binding)
       
-      Dir.chdir(VHOST_TARGET_DIR) #definend in config/initializers/gccp.rb
-      
-      File.open('gccp_' + servername, "w") do |f|
+      File.open(File.join(VHOST_TARGET_DIR,VHOST_PREFIX + servername), "w") do |f|
         f.write(vhost_template)
       end
-      system("a2ensite gccp_#{servername}")
+      
+      Dir.mkdir(path) unless File.exists?(path)
+      
+      indexfile = File.join(path, "index.html")
+      indexfile = File.join(path, "index.php") if php
+      
+      unless File.exists?(indexfile)
+        File.open(indexfile, "w") do |f|
+          f.write(index_template)
+        end
+      end
+      
+      system("a2ensite #{VHOST_PREFIX+servername}")
       system("/etc/init.d/apache2 reload")
-      
-      Dir.mkdir(WWW_DIR + folder)
-      Dir.chdir(WWW_DIR + folder)
-      
-      if rails
-        #adduser deploy
-        #gem install mongrel_cluster
-        #a2enmod rewrite
-        #a2enmod proxy
-        #a2enmod proxy_http
-        #a2enmod proxy_balancer
-        system("chown deploy:deploy #{WWW_DIR + folder}")
-        system("mkdir -p current/public")
-        system("echo 'hello world' > current/public/index.html")
-        Dir.mkdir("/etc/mongrel_cluster")
-        system("chown deploy:deploy /etc/mongrel_cluster")
-      end
-      
-      indexfile = "index.html"
-      indexfile = "index.php" if php
-      
-      File.open(indexfile, "w") do |f|
-        f.write(index_template)
-      end
       
     rescue Errno::ENOENT
       puts "No such directory"
