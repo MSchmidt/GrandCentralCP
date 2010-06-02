@@ -1,10 +1,15 @@
 class User < ActiveRecord::Base
   devise :database_authenticatable
   
+  attr_accessor :oldname
+  
   has_many :domains, :dependent => :destroy
   has_many :databases, :dependent => :destroy
   
   before_validation :set_default_password_if_needed, :set_default_userfolder_if_needed
+  after_create :add_unix_user
+  after_update :mod_unix_user
+  after_destroy :del_unix_user
   
   validates_uniqueness_of :username, :email, :case_sensitive => false
   validates_length_of :username, :within => 3..16
@@ -24,18 +29,19 @@ class User < ActiveRecord::Base
   def update_config(pass, oldname = nil)
     pass = " -p "+pass unless pass.blank?
     if oldname
-      user = "-l "+self.name+" "+oldname
+      user = "-l "+self.username+" "+oldname
+      File.rename(File.join(WWW_DIR,oldname),self.userpath) unless File.exists?(self.userpath) && File.exists?(File.join(WWW_DIR,oldname))
     else
-      user = self.name
+      user = self.username
     end
     
     system("usermod#{pass} #{user}")
     puts "usermod#{pass} #{user}"
+
   end
     
   def destroy_config
     system("userdel #{self.username}")
-    self.destroy
   end
   
   def userpath
@@ -57,7 +63,18 @@ class User < ActiveRecord::Base
       self.userfolder = ""
     end
   end
+    
+  def add_unix_user
+    self.send_later(:write_config, self.password)
+  end
   
+  def mod_unix_user
+    self.send_later(:update_config, self.password, self.oldname)
+  end
+
+  def del_unix_user
+    self.send_later(:destroy_config)
+  end
   
   public
   

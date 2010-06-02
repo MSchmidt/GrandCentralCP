@@ -34,7 +34,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        @user.send_later(:write_config, @user.password)
+        #@user.send_later(:write_config, @user.password)
         flash[:notice] = "User was successfully created. Please save the password: #{@user.password}"
         format.html { redirect_to(users_url) }
         format.xml  { render :xml => @user, :status => :created, :location => @user }
@@ -51,11 +51,11 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-    oldname = @user.name
+    @user.oldname = @user.username
 
     respond_to do |format|
       if @user.update_attributes(params[:user])
-        @user.send_later(:update_config, @user.password, oldname)
+        #@user.send_later(:update_config, @user.password, oldname)
         unless params[:user][:password].blank?
           flash[:notice] = "User was successfully updated. Please save the new password: #{@user.password}"
         else
@@ -96,7 +96,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.update_attribute(:dbpassword, params[:user][:dbpassword])
-        ConnectedDatabase.send_later(:change_user_password, :name => @user.name, :password => @user.dbpassword)
+        ConnectedDatabase.send_later(:change_user_password, :name => @user.username, :password => @user.dbpassword)
         flash[:notice] = 'User DB Password was successfully changed.'
         format.html { redirect_to(databases_url) }
         format.xml  { head :ok }
@@ -109,7 +109,7 @@ class UsersController < ApplicationController
   
   def destroy
     @user = User.find(params[:id])
-    @user.send_later(:destroy_config)
+    @user.destroy
     
     respond_to do |format|
       format.html { redirect_to(users_url) }

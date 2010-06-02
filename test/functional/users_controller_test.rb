@@ -42,7 +42,7 @@ class UsersControllerTest < ActionController::TestCase
 		
 		should "update user" do
 		  assert_difference('Delayed::Job.count') do 
-		    put :update, :id => @user.id, :user => {:name => 'new', :email => 'new@email.com'}
+		    put :update, :id => @user.id, :user => {:username => 'new', :email => 'new@email.com'}
 		  end
 		  assert_redirected_to user_url(assigns(:user))
 		end
@@ -51,7 +51,7 @@ class UsersControllerTest < ActionController::TestCase
 		  assert_difference('User.count', -1) do
 		    assert_difference('Delayed::Job.count') do
           delete :destroy, :id => @user.id
-          @user.destroy_config #name of User method which is called by delayed_job
+          #@user.destroy_config #name of User method which is called by delayed_job
         end
       end
       
