@@ -26,10 +26,22 @@ class User < ActiveRecord::Base
     #system("chown -R #{self.name} #{WWW_DIR}")
     #system("chmod 777 #{WWW_DIR}") #777 zu Testzwecken
   end
-  
-  def destroy_config(name)
-    puts "userdel #{name}"
-    system("userdel #{name}")
+
+  def update_config(pass, oldname = nil)
+    pass = " -p "+pass if pass.any?
+    if oldname
+      user = "-l "+self.name+" "+oldname
+    else
+      user = self.name
+    end
+    
+    system("usermod#{pass} #{user}")
+    puts "usermod#{pass} #{user}"
+  end
+    
+  def destroy_config
+    system("userdel #{self.name}")
+    self.destroy
   end
   
   protected
@@ -38,7 +50,6 @@ class User < ActiveRecord::Base
     self.password = User::generate_password if self.encrypted_password.blank?
     self.dbpassword = User::generate_password if self.dbpassword.blank?
   end
-  
   
   public
   

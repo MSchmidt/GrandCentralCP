@@ -4,8 +4,8 @@ doc/api
 doc/app
 db/*.sqlite3
 config/database.yml
+config/gccp.yml
 config/initializers/session_store.rb
-config/initializers/gccp.rb
 *.*~
 *~
 nbproject
