@@ -1,8 +1,6 @@
 class User < ActiveRecord::Base
   devise :database_authenticatable
   
-  attr_accessor :oldname
-  
   has_many :domains, :dependent => :destroy
   has_many :databases, :dependent => :destroy
   
@@ -16,6 +14,11 @@ class User < ActiveRecord::Base
   validates_presence_of :email, :encrypted_password, :dbpassword, :username
   validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
   
+  def username=(new_username)
+    write_attribute(:old_username, read_attribute(:username))
+    write_attribute(:username, new_username)
+  end
+  
   def write_config(pass)
     #add linux user
     #group ftp-user must exist
@@ -26,18 +29,23 @@ class User < ActiveRecord::Base
     system("chown -R #{self.username}:www-data " +  self.userpath) unless self.userfolder.blank?
   end
 
-  def update_config(pass, oldname = nil)
-    pass = " -p "+pass unless pass.blank?
-    if oldname
-      user = "-l "+self.username+" "+oldname
-      File.rename(File.join(WWW_DIR,oldname),self.userpath) unless File.exists?(self.userpath) && File.exists?(File.join(WWW_DIR,oldname))
+  def update_config(pass)
+    pass = " -p " + pass unless pass.blank?
+    
+    if self.username != self.old_username
+      user = "-l " + self.username + " " + self.old_username
+      
+      # Only rename user folder when user had folder similar to old username before
+      # which indicates that he stuck to the standard naming behaviour.
+      # Also make sure requested foldername is not taken yet.
+      if File.exists?(File.join(WWW_DIR, self.old_username)) && !File.exists?(self.userpath)
+        File.rename(File.join(WWW_DIR, oldname), self.userpath)
+      end
     else
       user = self.username
     end
     
     system("usermod#{pass} #{user}")
-    puts "usermod#{pass} #{user}"
-
   end
     
   def destroy_config
@@ -69,7 +77,7 @@ class User < ActiveRecord::Base
   end
   
   def mod_unix_user
-    self.send_later(:update_config, self.password, self.oldname)
+    self.send_later(:update_config, self.password)
   end
 
   def del_unix_user
