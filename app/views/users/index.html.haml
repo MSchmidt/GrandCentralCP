@@ -9,7 +9,7 @@
   - @users.each do |user|
     %tr
       %td
-        = link_to h(user.name), user_path(user.id)
+        = link_to h(user.username), user_path(user.id)
         = '- logged in' if current_user == user
         = '(admin)' if user.admin
       %td

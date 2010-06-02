@@ -1,9 +1,8 @@
 class User < ActiveRecord::Base
   devise :database_authenticatable
   
-  has_many :domains
-  #, :dependent => :destroy
-  has_many :databases
+  has_many :domains, :dependent => :destroy
+  has_many :databases, :dependent => :destroy
   
   before_validation :set_default_password_if_needed, :set_default_userfolder_if_needed
   
@@ -13,12 +12,13 @@ class User < ActiveRecord::Base
   validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
   
   def write_config(pass)
-    #add ftp user
+    #add linux user
     #group ftp-user must exist
-    system("useradd -g ftp-user -s /bin/false -d " + File.join(WWW_DIR, self.username) + " -p #{pass} #{self.username}")
+    Dir.mkdir(self.userpath) unless File.exists?(self.userpath)
+    system("useradd -g ftp-user -s /bin/false -d " + self.userpath + " -p #{pass} #{self.username}")
+    
     #permission
-    #system("chown -R #{self.name} #{WWW_DIR}")
-    #system("chmod 777 #{WWW_DIR}") #777 zu Testzwecken
+    system("chown -R #{self.username}:www-data " +  self.userpath) unless self.userfolder.blank?
   end
 
   def update_config(pass, oldname = nil)
@@ -34,9 +34,12 @@ class User < ActiveRecord::Base
   end
     
   def destroy_config
-    puts "tried to delete #{self.name}"
-    system("userdel #{self.name}")
+    system("userdel #{self.username}")
     self.destroy
+  end
+  
+  def userpath
+    File.join(WWW_DIR,self.userfolder)
   end
   
   
