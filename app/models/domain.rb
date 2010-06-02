@@ -11,38 +11,36 @@ class Domain < ActiveRecord::Base
   end
   
   def write_config
-    begin
-      servername = self.fqdn
-      serveralias = "www." + servername
-      email = self.user.email
-      path = File.join(WWW_DIR,self.mount_point)
-      php = self.php
-      rails = self.rails
+    servername = self.fqdn
+    serveralias = "www." + servername
+    email = self.user.email
+    path = File.join(WWW_DIR,self.mount_point)
+    php = self.php
+    rails = self.rails
       
-      vhost_template = ERB.new(read_template('apache2_vhost.conf')).result(binding)
-      index_template = ERB.new(read_template('index.html')).result(binding)
+    vhost_template = ERB.new(read_template('apache2_vhost.conf')).result(binding)
+    index_template = ERB.new(read_template('index.html')).result(binding)
       
-      File.open(File.join(VHOST_TARGET_DIR,VHOST_PREFIX + servername), "w") do |f|
-        f.write(vhost_template)
+    File.open(File.join(VHOST_TARGET_DIR,VHOST_PREFIX + servername), "w") do |f|
+      f.write(vhost_template)
+    end
+      
+    Dir.mkdir(path) unless File.exists?(path)
+      
+    indexfile = File.join(path, "index.html")
+    indexfile = File.join(path, "index.php") if php
+      
+    unless File.exists?(indexfile)
+      File.open(indexfile, "w") do |f|
+        f.write(index_template)
       end
+    end
       
-      Dir.mkdir(path) unless File.exists?(path)
-      
-      indexfile = File.join(path, "index.html")
-      indexfile = File.join(path, "index.php") if php
-      
-      unless File.exists?(indexfile)
-        File.open(indexfile, "w") do |f|
-          f.write(index_template)
-        end
-      end
-      
-      system("a2ensite #{VHOST_PREFIX+servername}")
-      system("/etc/init.d/apache2 reload")
+    system("a2ensite #{VHOST_PREFIX+servername}")
+    system("/etc/init.d/apache2 reload")
       
     rescue Errno::ENOENT
       puts "No such directory"
-    end
   end
   
   def read_template(file)
