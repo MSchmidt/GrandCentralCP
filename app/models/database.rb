@@ -12,7 +12,7 @@ class Database < ActiveRecord::Base
   
   def write_config
     dbname = self.name
-    username = self.user.name
+    username = self.user.username
     userpwd = self.user.dbpassword
     
     ConnectedDatabase::create_database(:name => dbname)

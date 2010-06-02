@@ -36,4 +36,11 @@ class ConnectedDatabase < ActiveRecord::Base
       connection.execute "SET PASSWORD FOR '#{options[:name]}'@'localhost' = PASSWORD( '#{options[:password]}' );"
     end
   end
+  
+  def self.rename_user(options={})
+    unless options[:name].blank? && options[:oldname].blank?
+      res = connection.execute("SELECT COUNT(*) FROM user WHERE User = '#{options[:name]}';")
+      connection.execute "RENAME USER '#{options[:oldname]}'@'localhost' TO '#{options[:name]}'@'localhost';" if res.fetch_row.to_i != 0
+    end
+  end
 end

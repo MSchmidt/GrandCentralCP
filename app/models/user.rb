@@ -29,18 +29,20 @@ class User < ActiveRecord::Base
     system("chown -R #{self.username}:www-data " +  self.userpath) unless self.userfolder.blank?
   end
 
-  def update_config(pass)
+  def update_config(pass,old_username)
     pass = " -p " + pass unless pass.blank?
     
-    if self.username != self.old_username
-      user = "-l " + self.username + " " + self.old_username
+    if self.username != old_username
+      user = "-l " + self.username + " " + old_username
       
       # Only rename user folder when user had folder similar to old username before
       # which indicates that he stuck to the standard naming behaviour.
       # Also make sure requested foldername is not taken yet.
-      if File.exists?(File.join(WWW_DIR, self.old_username)) && !File.exists?(self.userpath)
-        File.rename(File.join(WWW_DIR, oldname), self.userpath)
+      if File.exists?(File.join(WWW_DIR, old_username)) && !File.exists?(self.userpath)
+        File.rename(File.join(WWW_DIR, old_username), self.userpath)
       end
+      
+      ConnectedDatabase::rename_user(:name => self.username, :oldname => old_username)
     else
       user = self.username
     end
@@ -77,7 +79,7 @@ class User < ActiveRecord::Base
   end
   
   def mod_unix_user
-    self.send_later(:update_config, self.password)
+    self.send_later(:update_config, self.password, self.old_username)
   end
 
   def del_unix_user
