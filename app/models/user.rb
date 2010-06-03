@@ -19,6 +19,10 @@ class User < ActiveRecord::Base
     write_attribute(:username, new_username)
   end
   
+  def old_username
+    read_attribute(:old_username) 
+  end
+
   def write_config(pass)
     #add linux user
     #group ftp-user must exist
@@ -42,7 +46,6 @@ class User < ActiveRecord::Base
         File.rename(File.join(WWW_DIR, old_username), self.userpath)
       end
       
-      ConnectedDatabase::rename_user(:name => self.username, :oldname => old_username)
     else
       user = self.username
     end
@@ -79,10 +82,13 @@ class User < ActiveRecord::Base
   end
   
   def mod_unix_user
+    ConnectedDatabase::change_user_password(:name => self.username, :password => self.dbpassword) if self.dbpassword_changed?
+    ConnectedDatabase::rename_user(:name => self.username, :oldname => old_username) if self.username != old_username
     self.send_later(:update_config, self.password, self.old_username)
   end
 
   def del_unix_user
+    ConnectedDatabase::destroy_user(:name => self.username)
     self.send_later(:destroy_config)
   end
   

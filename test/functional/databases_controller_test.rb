@@ -20,7 +20,7 @@ class DatabasesControllerTest < ActionController::TestCase
 
     should "create database" do
       assert_difference('Database.count') do
-        post :create, :database => Database.plan
+        post :create, :database => Database.plan(:user_id => @user.id)
       end
 
       assert_redirected_to database_path(assigns(:database))
@@ -53,7 +53,7 @@ class DatabasesControllerTest < ActionController::TestCase
   context "Logged in customer" do
 		setup do
 			sign_in @user = User.make
-      @database = Database.make
+      @database = Database.make(:user_id => @user.id)
 		end
 
     should "create database" do

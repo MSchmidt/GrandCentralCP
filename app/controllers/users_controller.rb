@@ -78,7 +78,7 @@ class UsersController < ApplicationController
     
     respond_to do |format|
       if @user.valid_password?(params[:old_password]) && (params[:user][:password] == params[:user][:password_confirmation]) && params[:user][:password] && @user.update_attribute(:password, params[:user][:password])
-        @user.send_later(:update_config, @user.password)
+        #@user.send_later(:update_config, @user.password)
         flash[:notice] = 'User Password was successfully changed.'
         format.html { redirect_to(user_root_url) }
         format.xml  { head :ok }
@@ -95,7 +95,6 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.update_attribute(:dbpassword, params[:user][:dbpassword])
-        ConnectedDatabase.send_later(:change_user_password, :name => @user.username, :password => @user.dbpassword)
         flash[:notice] = 'User DB Password was successfully changed.'
         format.html { redirect_to(databases_url) }
         format.xml  { head :ok }

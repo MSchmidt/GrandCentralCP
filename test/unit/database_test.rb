@@ -2,13 +2,15 @@ require 'test_helper'
 
 class DatabaseTest < ActiveSupport::TestCase
   should "save a new database" do
-    Database.make
+    @user = User.make
+    Database.make(:user_id => @user.id)
     assert_equal 1, Database.count
   end
   
   context "A Database instance" do
     setup do
-      10.times { Database.make }
+      @user = User.make
+      10.times { Database.make(:user_id => @user.id) }
     end
     
     should_belong_to :user
