@@ -14,6 +14,8 @@ function generate_password(pwlength) {
 }
 
 window.addEvent('domready', function(){
+	$('infobar').fade('hide');
+	
 	var infobar_fx = new Fx.Tween($('infobar'), {
 		property: 'height',
 		link: 'cancel',

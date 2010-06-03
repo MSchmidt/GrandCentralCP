@@ -45,7 +45,7 @@ $nav_li_width: 120px
   background-color: #fff
   
 #infobar
-  #visibility: hidden
+  visibility: hidden
   position: fixed
   bottom: 0
   width: 100%
@@ -53,10 +53,14 @@ $nav_li_width: 120px
   background-color: #000
   z-index: 100
   #infobar-content
+    height: 25px
     padding: 5px 10px
+    #infobar-collapsed
+      height: 15px
+      margin-bottom: 15px
     #infobar-expanded
-      display: none
-      height: 250px
+      display: block
+      height: 200px
       overflow: auto
     #infobar-buttons
       position: absolute

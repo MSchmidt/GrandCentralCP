@@ -9,12 +9,12 @@ window.addEvent('domready', function(){
 			container: 'workbench',
 
 			onDrop: function(element, droppable, event){
-				$('infobar').fade('hide').fade('in');
+				$('infobar').fade('in');
 			}
 		});
 		
 		// bring clicked to top
-		i.addEvent('click', function(event){
+		i.addEvent('mousedown', function(event){
 			$$('.domain').each(function(d_to_send_back){
 				d_to_send_back.setStyle('z-index', 0);
 			});
@@ -27,6 +27,7 @@ window.addEvent('domready', function(){
 		});
 	});
 	
+	// UNDO
 	$('undo_button').addEvent('click', function(event){
 		$$('.domain').each(function(i){
 			var move = new Fx.Morph(i);
@@ -37,9 +38,12 @@ window.addEvent('domready', function(){
 			
 			i.getElement('.domain_path').set('html', i.retrieve('domain_path'));
 		});
+		$('infobar').fade('out');
+		$('infobar-expanded').set('html', '');
 		event.stop();
 	});
 	
+	// SAVE
 	$('save_button').addEvent('click', function(event){
 		// do all the saving action here
 		event.stop();
@@ -61,7 +65,8 @@ window.addEvent('domready', function(){
 						animate: true,
 						onSelect: function(selected){
 							this.target.highlight();
-							change_domain_path(parent_element, selected)
+							change_domain_path(parent_element, selected);
+							$('infobar').fade('in');
 						},
 						onExtend: function(extended, path, direction){
 							//console.log('extend: ' + extended + ' - ' + path + ' | ' + direction);

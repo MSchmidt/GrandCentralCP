@@ -42,7 +42,7 @@ body {
   background-color: white; }
 
 #infobar {
-  #visibility: hidden;
+  visibility: hidden;
   position: fixed;
   bottom: 0;
   width: 100%;
@@ -50,10 +50,14 @@ body {
   background-color: black;
   z-index: 100; }
   #infobar #infobar-content {
+    height: 25px;
     padding: 5px 10px; }
+    #infobar #infobar-content #infobar-collapsed {
+      height: 15px;
+      margin-bottom: 15px; }
     #infobar #infobar-content #infobar-expanded {
-      display: none;
-      height: 250px;
+      display: block;
+      height: 200px;
       overflow: auto; }
     #infobar #infobar-content #infobar-buttons {
       position: absolute;
