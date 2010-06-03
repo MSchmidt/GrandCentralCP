@@ -39,6 +39,7 @@ window.addEvent('domready', function(){
 			i.getElement('.domain_path').set('html', i.retrieve('domain_path'));
 			i.getElement('.domain_changed').set('html', '0');
 		});
+		
 		$('infobar').fade('out');
 		$('infobar-expanded').set('html', '');
 		event.stop();
@@ -55,10 +56,15 @@ window.addEvent('domready', function(){
 					}
 				}).post({
 					'_method': 'put',
-					'domain[mount_point]': i.getElement('.domain_path').get('html')
+					'domain[mount_point]': i.getElement('.domain_path').get('html'),
+					'domain[workbench_x]': i.getStyle('left'),
+					'domain[workbench_y]': i.getStyle('top')
 				});
 			}
 		});
+		
+		$('infobar').fade('out');
+		$('infobar-expanded').set('html', '');
 		event.stop();
 	});
 	

@@ -18,11 +18,7 @@ window.addEvent('domready', function(){
 	
 	var infobar_fx = new Fx.Tween($('infobar'), {
 		property: 'height',
-		link: 'cancel',
-		onComplete: function(){
-			//$('infobar-collapsed').fade('toggle');
-			//$('infobar-expanded').fade('toggle');
-		}
+		link: 'cancel'
 	});
 	
 	var infobar_original_height = $('infobar').getStyle('height');

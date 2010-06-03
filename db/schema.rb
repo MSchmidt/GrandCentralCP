@@ -39,6 +39,8 @@ ActiveRecord::Schema.define(:version => 20100503203735) do
     t.string   "mount_point"
     t.boolean  "php",         :default => false, :null => false
     t.boolean  "rails",       :default => false, :null => false
+    t.integer  "workbench_x"
+    t.integer  "workbench_y"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

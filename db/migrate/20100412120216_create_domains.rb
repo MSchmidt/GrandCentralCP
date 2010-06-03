@@ -6,6 +6,8 @@ class CreateDomains < ActiveRecord::Migration
       t.string    :mount_point
       t.boolean   :php,         :default => false, :null => false
       t.boolean   :rails,       :default => false, :null => false
+      t.integer   :workbench_x
+      t.integer   :workbench_y
 
       t.timestamps
     end

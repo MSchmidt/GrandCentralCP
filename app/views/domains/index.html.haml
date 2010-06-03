@@ -6,7 +6,8 @@
       hullo
     .browser
   - @domains.each do |domain|
-    .domain{:id => "domain#{domain.id}"}
+    - position_style = domain.workbench_x && domain.workbench_x ? "top: #{domain.workbench_y}px; left: #{domain.workbench_x}px" : ""
+    .domain{:id => "domain#{domain.id}", :style => position_style}
       .domain-nob
       .domain-info
         %h1= h(domain.fqdn)
