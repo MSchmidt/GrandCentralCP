@@ -102,13 +102,33 @@ class DomainsController < ApplicationController
   # DELETE /domains/1.xml
   # ADMIN only
   def destroy
-    @domain = Domain.find(params[:id])
+    if is_admin?
+      @domain = Domain.find(params[:id])
+    else
+      @domain = current_user.domains.find(params[:id])
+    end
     @domain.send_later(:destroy_config)
     flash[:notice] = 'Domain was successfully destroyed.'
 
     respond_to do |format|
       format.html { redirect_to(domains_url) }
       format.xml  { head :ok }
+    end
+  end
+  
+  def change_preview
+    if is_admin?
+      domain = Domain.find(params[:id])
+    else
+      domain = current_user.domains.find(params[:id])
+    end
+    domain.mount_point = params[:domain_path]
+    vhost = { :vhost => domain.generate_vhost.gsub!(/\n/, '<br />') }
+    
+    respond_to do |format|
+      format.html { redirect_to(user_root_url) }
+      format.js { render :json => vhost }
+      format.xml { render :xml => vhost }
     end
   end
 end

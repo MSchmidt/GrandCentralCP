@@ -30,4 +30,10 @@
       = yield
 
     #infobar
-      = "#{@unsaved_domains_count} domains got changed. See what GCCP will do."
+      #infobar-content
+        #infobar-collapsed
+          = "Some domains got changed. See what GCCP will do."
+        #infobar-expanded
+        #infobar-buttons
+          %button#undo_button Undo
+          %button#save_button Save
