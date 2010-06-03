@@ -1,7 +1,6 @@
 class DomainsController < ApplicationController
   
   before_filter :is_admin, :except => [:index, :show, :edit, :update]
-  before_filter :check_for_unsaved
   
   # GET /domains
   # GET /domains.xml
@@ -61,7 +60,6 @@ class DomainsController < ApplicationController
   # ADMIN only
   def create
     @domain = Domain.new(params[:domain])
-    @domain.saved_by = current_user
     
     respond_to do |format|
       if @domain.save
@@ -111,41 +109,6 @@ class DomainsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(domains_url) }
       format.xml  { head :ok }
-    end
-  end
-  
-  def folder_structure
-    folders = Domain.get_user_www_dir_structure
-    
-    respond_to do |format|
-      format.html { redirect_to(domains_url) }
-      format.js { render :json => folders }
-      format.xml do
-        xml = Builder::XmlMarkup.new(:indent => 2)
-        xml.ul { build_xml_branch(folders, xml) }      
-        render :xml => xml.target!
-      end
-    end
-  end
-  
-  protected
-  def check_for_unsaved
-    @unsaved_domains = Domain.all(:conditions => { :saved => false, :saved_by => current_user })
-    @unsaved_domains_count = @unsaved_domains.count
-  end
-  
-  def build_xml_branch(branch, xml)
-    branch.keys.sort.each do |directory|
-      if branch[directory].empty?
-        xml.li(directory)
-      else
-        xml.li(directory, :class => 'has_sub')
-        xml.li(:class => "is_sub #{directory}-sub") do
-          xml.ul do
-            build_xml_branch(branch[directory], xml)
-          end
-        end
-      end
     end
   end
 end

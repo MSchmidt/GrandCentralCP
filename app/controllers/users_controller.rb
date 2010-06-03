@@ -33,9 +33,8 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
 
     respond_to do |format|
-      if @user.save 
-        #Delayed::Job.enqueue User.find(@user.id)
-        @user.send_later(:write_config, @user.password)
+      if @user.save
+        #@user.send_later(:write_config, @user.password)
         flash[:notice] = "User was successfully created. Please save the password: #{@user.password}"
         format.html { redirect_to(users_url) }
         format.xml  { render :xml => @user, :status => :created, :location => @user }
@@ -55,7 +54,8 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.update_attributes(params[:user])
-        if params[:user][:password] && params[:user][:password].any?
+        #@user.send_later(:update_config, @user.password, oldname)
+        unless params[:user][:password].blank?
           flash[:notice] = "User was successfully updated. Please save the new password: #{@user.password}"
         else
           flash[:notice] = "User was successfully updated."
@@ -77,7 +77,8 @@ class UsersController < ApplicationController
     @user = current_user
     
     respond_to do |format|
-      if @user.valid_password?(params[:old_password]) && (params[:user][:password] == params[:user][:password_confirmation]) && params[:user][:password].any? && @user.update_attribute(:password, params[:user][:password])
+      if @user.valid_password?(params[:old_password]) && (params[:user][:password] == params[:user][:password_confirmation]) && params[:user][:password] && @user.update_attribute(:password, params[:user][:password])
+        @user.send_later(:update_config, @user.password)
         flash[:notice] = 'User Password was successfully changed.'
         format.html { redirect_to(user_root_url) }
         format.xml  { head :ok }
@@ -94,7 +95,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.update_attribute(:dbpassword, params[:user][:dbpassword])
-        ConnectedDatabase.send_later(:change_user_password, :name => @user.name, :password => @user.dbpassword)
+        ConnectedDatabase.send_later(:change_user_password, :name => @user.username, :password => @user.dbpassword)
         flash[:notice] = 'User DB Password was successfully changed.'
         format.html { redirect_to(databases_url) }
         format.xml  { head :ok }
@@ -107,11 +108,42 @@ class UsersController < ApplicationController
   
   def destroy
     @user = User.find(params[:id])
-    @user.send_later(:destroy_config, @user.name) if @user.destroy
-
+    @user.destroy
+    
     respond_to do |format|
       format.html { redirect_to(users_url) }
       format.xml  { head :ok }
+    end
+  end
+  
+  def folder_structure
+    folders = User.get_user_www_dir_structure
+    
+    respond_to do |format|
+      format.html { redirect_to(domains_url) }
+      format.js { render :json => folders }
+      format.xml do
+        xml = Builder::XmlMarkup.new(:indent => 2)
+        xml.ul { build_xml_branch(folders, xml) }      
+        render :xml => xml.target!
+      end
+    end
+  end
+  
+  protected
+    
+  def build_xml_branch(branch, xml)
+    branch.keys.sort.each do |directory|
+      if branch[directory].empty?
+        xml.li(directory)
+      else
+        xml.li(directory, :class => 'has_sub')
+        xml.li(:class => "is_sub #{directory}-sub") do
+          xml.ul do
+            build_xml_branch(branch[directory], xml)
+          end
+        end
+      end
     end
   end
 end

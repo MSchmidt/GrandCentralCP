@@ -1,0 +1,9 @@
+config:
+  vhost_target_dir: /etc/apache2/sites-available
+  www_dir: /var/www
+  vhost_prefix: gccp_
+  
+firstadmin:
+  username: admin
+  email: admin@gccp.org
+  password: pass

@@ -1,42 +1,89 @@
 class User < ActiveRecord::Base
   devise :database_authenticatable
   
-  has_many :domains
-  #, :dependent => :destroy
-  has_many :databases
+  has_many :domains, :dependent => :destroy
+  has_many :databases, :dependent => :destroy
   
-  before_validation :set_default_password_if_needed
+  before_validation :set_default_password_if_needed, :set_default_userfolder_if_needed
+  after_create :add_unix_user
+  after_update :mod_unix_user
+  after_destroy :del_unix_user
   
-  validates_uniqueness_of :name, :email, :case_sensitive => false
-  validates_length_of :name, :maximum => 16
-  validates_presence_of :email, :encrypted_password, :dbpassword, :name
+  validates_uniqueness_of :username, :email, :case_sensitive => false
+  validates_length_of :username, :within => 3..16
+  validates_presence_of :email, :encrypted_password, :dbpassword, :username
   validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
-
-=begin
-  def perform
-    write_config
+  
+  def username=(new_username)
+    write_attribute(:old_username, read_attribute(:username))
+    write_attribute(:username, new_username)
   end
-=end
   
   def write_config(pass)
-    #add ftp user
+    #add linux user
     #group ftp-user must exist
-    system("useradd -g ftp-user -s /bin/false -d /var/www -p #{pass} #{self.name}")
+    Dir.mkdir(self.userpath) unless File.exists?(self.userpath)
+    system("useradd -g ftp-user -s /bin/false -d " + self.userpath + " -p #{pass} #{self.username}")
+    
     #permission
-    #system("chown -R #{self.name} #{WWW_DIR}")
-    #system("chmod 777 #{WWW_DIR}") #777 zu Testzwecken
+    system("chown -R #{self.username}:www-data " +  self.userpath) unless self.userfolder.blank?
+  end
+
+  def update_config(pass,old_username)
+    pass = " -p " + pass unless pass.blank?
+    
+    if self.username != old_username
+      user = "-l " + self.username + " " + old_username
+      
+      # Only rename user folder when user had folder similar to old username before
+      # which indicates that he stuck to the standard naming behaviour.
+      # Also make sure requested foldername is not taken yet.
+      if File.exists?(File.join(WWW_DIR, old_username)) && !File.exists?(self.userpath)
+        File.rename(File.join(WWW_DIR, old_username), self.userpath)
+      end
+      
+      ConnectedDatabase::rename_user(:name => self.username, :oldname => old_username)
+    else
+      user = self.username
+    end
+    
+    system("usermod#{pass} #{user}")
+  end
+    
+  def destroy_config
+    system("userdel #{self.username}")
   end
   
-  def destroy_config(name)
-    puts "userdel #{name}"
-    system("userdel #{name}")
+  def userpath
+    File.join(WWW_DIR,self.userfolder)
   end
+  
   
   protected
 
   def set_default_password_if_needed
     self.password = User::generate_password if self.encrypted_password.blank?
     self.dbpassword = User::generate_password if self.dbpassword.blank?
+  end
+  
+  def set_default_userfolder_if_needed
+    if self.userfolder
+      self.userfolder = self.username
+    else
+      self.userfolder = ""
+    end
+  end
+    
+  def add_unix_user
+    self.send_later(:write_config, self.password)
+  end
+  
+  def mod_unix_user
+    self.send_later(:update_config, self.password, self.old_username)
+  end
+
+  def del_unix_user
+    self.send_later(:destroy_config)
   end
   
   
@@ -47,6 +94,22 @@ class User < ActiveRecord::Base
     password = ""
     1.upto(options[:length]) { |i| password << chars[rand(chars.size-1)] }
     return password
+  end
+  
+  def self.get_user_www_dir_structure
+    folders = Hash.new{ |h,k| h[k] = Hash.new &h.default_proc }
+    
+    Dir.glob(File.join(WWW_DIR, "**", "**")) do |path|
+      if File.directory?(path)
+        sub = folders
+        path.gsub!(File.join(WWW_DIR, ''), '') # uses File.join to append final /
+        path.split('/').each do |dir|
+          sub = sub[dir]
+        end
+      end
+    end
+    
+    return folders
   end
 end
 

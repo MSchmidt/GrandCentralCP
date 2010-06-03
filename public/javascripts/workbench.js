@@ -33,7 +33,7 @@ window.addEvent('domready', function(){
 			settings_bubble.fade('hide').inject(parent_element).fade('in');
 			
 			var jsonRequest = new Request({
-				url: "/domains/folder_structure.xml",
+				url: "/users/folder_structure.xml",
 				onSuccess: function(response){
 					var fibro = new MooFibro(parent_element.getElement('span.domain_path'), {
 						container: settings_bubble.getElement('.browser'),

@@ -16,6 +16,7 @@ class UserTest < ActiveSupport::TestCase
     
     should_validate_presence_of :email
     should_validate_uniqueness_of :email
+    should_ensure_length_in_range :username, (3..16)
   
     should_not_allow_values_for :email, "blah", "b lah"
     should_allow_values_for :email, "a@b.com", "asdf@asdf.com"

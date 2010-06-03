@@ -1,2 +1,0 @@
-VHOST_TARGET_DIR = '/etc/apache2/sites-available'
-WWW_DIR = '/var/www'

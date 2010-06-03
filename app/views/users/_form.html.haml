@@ -1,9 +1,9 @@
 = f.error_messages
 
 %p
-  = f.label :name
+  = f.label :username
   %br/
-  = f.text_field :name
+  = f.text_field :username
 %p
   = f.label :email
   %br/
@@ -16,5 +16,6 @@
   = f.label :password
   %br/
   = f.text_field :password
+  = f.hidden_field :userfolder
   = link_to_function 'Generate Password', 'generate_password()'
 
