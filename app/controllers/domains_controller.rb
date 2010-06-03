@@ -63,7 +63,7 @@ class DomainsController < ApplicationController
     
     respond_to do |format|
       if @domain.save
-        Delayed::Job.enqueue Domain.find(@domain.id)
+        #Delayed::Job.enqueue Domain.find(@domain.id)
         flash[:notice] = 'Domain was successfully created.'
         format.html { redirect_to(@domain) }
         format.xml  { render :xml => @domain, :status => :created, :location => @domain }
@@ -86,7 +86,7 @@ class DomainsController < ApplicationController
 
     respond_to do |format|
       if @domain.update_attributes(params[:domain])
-        Delayed::Job.enqueue Domain.find(@domain.id)
+        #Delayed::Job.enqueue Domain.find(@domain.id)
         flash[:notice] = 'Domain was successfully updated.'
         format.html { redirect_to(@domain) }
         format.xml  { head :ok }
@@ -103,7 +103,7 @@ class DomainsController < ApplicationController
   # ADMIN only
   def destroy
     @domain = Domain.find(params[:id])
-    @domain.send_later(:destroy_config)
+    @domain.destroy
     flash[:notice] = 'Domain was successfully destroyed.'
 
     respond_to do |format|

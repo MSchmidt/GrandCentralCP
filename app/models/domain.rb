@@ -1,15 +1,15 @@
 class Domain < ActiveRecord::Base
   belongs_to :user
   
+  after_create :create_vhost
+  after_update :create_vhost
+  after_destroy :destroy_vhost
+  
   validates_presence_of :fqdn, :mount_point
   validates_uniqueness_of :fqdn
   validates_length_of :fqdn, :minimum => 4
   validates_presence_of :user_id
-  
-  def perform
-    write_config
-  end
-  
+
   def write_config
     servername = self.fqdn
     serveralias = "www." + servername
@@ -35,7 +35,7 @@ class Domain < ActiveRecord::Base
         f.write(index_template)
       end
     end
-      
+    
     system("a2ensite #{VHOST_PREFIX+servername}")
     system("/etc/init.d/apache2 reload")
       
@@ -66,5 +66,14 @@ class Domain < ActiveRecord::Base
         puts "No such directory"
       end
      end
+  end
+  
+  protected
+  
+  def create_vhost
+    self.send_later(:write_config)
+  end
+  def destroy_vhost
+    self.send_later(:destroy_config)
   end
 end
