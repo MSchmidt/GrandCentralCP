@@ -1,17 +1,17 @@
 body {
   background-color: #7a5e2f;
   background-image: url(../images/gccp_bg.jpg);
-  color: #222; }
+  color: #222222; }
 
 #loginfield {
   width: 550px;
   margin: 150px auto;
   padding: 25px;
-  background-color: #fff;
+  background-color: white;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
-  -webkit-box-shadow: 0 4px 28px rgba(0, 0, 0, 1);
-  -moz-box-shadow: 0 4px 28px rgba(0, 0, 0, 1); }
+  -webkit-box-shadow: 0 4px 28px black;
+  -moz-box-shadow: 0 4px 28px black; }
   #loginfield h1, #loginfield h2 {
     text-align: center; }
   #loginfield input[type=text], #loginfield input[type=password] {
@@ -23,7 +23,7 @@ body {
     background-color: #a68236;
     background-image: url(../images/gccp_button.jpg);
     background-repeat: repeat-x;
-    border: 1px solid #222;
+    border: 1px solid #222222;
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px; }
     #loginfield input[type=submit]:hover, #loginfield input[type=submit]:focus {

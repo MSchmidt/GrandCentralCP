@@ -1,0 +1,78 @@
+#workbench
+  position: relative
+  height: 500px
+
+.domain
+  position: absolute
+  min-width: 200px
+  height: 90px
+  background-color: #e2e2e2
+  background: -webkit-gradient(linear, left top, left bottom, from(#e2e2e2), to(#a2a2a2))
+  background: -moz-linear-gradient(top,  #e2e2e2,  #a2a2a2)
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e2e2e2', endColorstr='#a2a2a2')
+  border: 1px solid #000
+  -webkit-border-radius: 10px
+  -moz-border-radius: 10px
+  .domain-nob
+    float: left
+    width: 15px
+    height: 100%
+    background: url(../images/nobs.png) 50% no-repeat
+    &:hover
+      cursor: move
+      
+  .domain-info
+    float: right
+    padding: 5px 10px
+    text-align: right
+    h1
+      color: #444
+
+$bubble_width: 300px
+
+.settings-bubble
+  position: absolute
+  right: -$bubble_width
+  top: 30px
+  width: $bubble_width
+  min-height: 200px
+  color: #fff
+  background-color: #333
+  border: 1px solid #fff
+  -webkit-border-radius: 10px
+  -moz-border-radius: 10px
+  .browser
+    width: $bubble_width
+    ul
+      display: block
+      float: left
+      width: $bubble_width
+      list-style: none
+      margin: 0
+      padding: 0
+      li
+        position: relative
+        height: 40px
+        font-size: 1.5em
+        border-bottom: 1px solid #000
+        background-color: #444        
+        &:hover
+          background-color: #666
+        &.selected
+          background-color: #99b286
+        a.select_link
+          position: absolute
+          display: block
+          width: $bubble_width - 40px
+          height: 30px
+          padding: 5px 20px
+          color: #fff
+          text-decoration: none
+          outline: none
+        a.extend_link
+          position: absolute
+          right: 0
+          width: 40px
+          height: 100%
+          background: url(../images/browser_arrow.png) no-repeat 50%
+          outline: none

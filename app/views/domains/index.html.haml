@@ -1,22 +1,22 @@
-%h1 Listing domains
+%h1 Domain Workbench
 
-%table
-  %tr
-    %th Domain
-    %th Folder
-    %th= 'User' if is_admin?
-    %th
-    %th
-    %th
-
+#workbench
+  #settings_bubble_blueprint.settings-bubble{:class => 'hidden'}
+    .domain-settings
+      hullo
+    .browser
   - @domains.each do |domain|
-    %tr
-      %td= link_to h(domain.fqdn), "http://" + h(domain.fqdn), :target => "_blank"
-      %td=h domain.mount_point
-      %td=h domain.user.email if is_admin?
-      %td= link_to 'Show', domain
-      %td= link_to 'Edit', edit_domain_path(domain)
-      %td= link_to 'Destroy', domain, :confirm => 'Are you sure?', :method => :delete
+    .domain{:id => "domain#{domain.id}"}
+      .domain-nob
+      .domain-info
+        %h1= h(domain.fqdn)
+        %div
+          = link_to 'Edit', edit_domain_path(domain)
+          = link_to 'Destroy', domain, :confirm => 'Are you sure?', :method => :delete
+          %span.domain_path= h(domain.mount_point)
+          = link_to '✎', '#edit', :class => 'domain_edit'
+        %span.domain_id.hidden= domain.id
+        %span.domain_owner.hidden= domain.user_id
 
 %br/
 

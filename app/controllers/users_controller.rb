@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   
-  before_filter :is_admin, :except => [:change_password, :update_password, :update_db_password]
+  before_filter :is_admin, :except => [:change_password, :update_password, :update_db_password, :folder_structure]
   
   def index
     @users = User.all
@@ -112,6 +112,43 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(users_url) }
       format.xml  { head :ok }
+    end
+  end
+  
+  def folder_structure
+    if params[:id] == current_user.id
+      @user = current_user
+    elsif is_admin?
+      @user = User.find(params[:id])
+    end
+    
+    folders = @user.folder_structure
+    
+    respond_to do |format|
+      format.html { redirect_to(user_root_url) }
+      format.js { render :json => folders }
+      format.xml do
+        xml = Builder::XmlMarkup.new(:indent => 2)
+        xml.ul { build_xml_branch(folders, xml) }      
+        render :xml => xml.target!
+      end
+    end
+  end
+  
+  protected
+    
+  def build_xml_branch(branch, xml)
+    branch.keys.sort.each do |directory|
+      if branch[directory].empty?
+        xml.li(directory)
+      else
+        xml.li(directory, :class => 'has_sub')
+        xml.li(:class => "is_sub #{directory}-sub") do
+          xml.ul do
+            build_xml_branch(branch[directory], xml)
+          end
+        end
+      end
     end
   end
 end

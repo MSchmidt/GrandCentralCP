@@ -11,3 +11,4 @@ config/initializers/session_store.rb
 nbproject
 tmp
 .bundle
+.sass-cache

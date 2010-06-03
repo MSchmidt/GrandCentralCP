@@ -41,5 +41,27 @@ body {
   padding: 20px;
   background-color: white; }
 
+#infobar {
+  #visibility: hidden;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  color: white;
+  background-color: black;
+  z-index: 100; }
+  #infobar #infobar-content {
+    padding: 5px 10px; }
+    #infobar #infobar-content #infobar-expanded {
+      display: none;
+      height: 250px;
+      overflow: auto; }
+    #infobar #infobar-content #infobar-buttons {
+      position: absolute;
+      top: 5px;
+      right: 5px; }
+
 .big {
   font-size: 1.5em; }
+
+.hidden {
+  display: none; }

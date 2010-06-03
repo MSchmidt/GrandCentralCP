@@ -4,8 +4,8 @@ class CreateDomains < ActiveRecord::Migration
       t.integer   :user_id
       t.string    :fqdn
       t.string    :mount_point
-      t.boolean   :php, :default=>false
-      t.boolean   :rails, :default=>false
+      t.boolean   :php,         :default => false, :null => false
+      t.boolean   :rails,       :default => false, :null => false
 
       t.timestamps
     end

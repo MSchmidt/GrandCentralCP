@@ -1,0 +1,75 @@
+#workbench {
+  position: relative;
+  height: 500px; }
+
+.domain {
+  position: absolute;
+  min-width: 200px;
+  height: 90px;
+  background-color: #e2e2e2;
+  background: -webkit-gradient(linear, left top, left bottom, from(#e2e2e2), to(#a2a2a2));
+  background: -moz-linear-gradient(top, #e2e2e2, #a2a2a2);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e2e2e2', endColorstr='#a2a2a2');
+  border: 1px solid black;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px; }
+  .domain .domain-nob {
+    float: left;
+    width: 15px;
+    height: 100%;
+    background: url(../images/nobs.png) 50% no-repeat; }
+    .domain .domain-nob:hover {
+      cursor: move; }
+  .domain .domain-info {
+    float: right;
+    padding: 5px 10px;
+    text-align: right; }
+    .domain .domain-info h1 {
+      color: #444444; }
+
+.settings-bubble {
+  position: absolute;
+  right: -300px;
+  top: 30px;
+  width: 300px;
+  min-height: 200px;
+  color: white;
+  background-color: #333333;
+  border: 1px solid white;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px; }
+  .settings-bubble .browser {
+    width: 300px; }
+    .settings-bubble .browser ul {
+      display: block;
+      float: left;
+      width: 300px;
+      list-style: none;
+      margin: 0;
+      padding: 0; }
+      .settings-bubble .browser ul li {
+        position: relative;
+        height: 40px;
+        font-size: 1.5em;
+        border-bottom: 1px solid black;
+        background-color: #444444; }
+        .settings-bubble .browser ul li:hover {
+          background-color: #666666; }
+        .settings-bubble .browser ul li.selected {
+          background-color: #99b286; }
+        .settings-bubble .browser ul li a.select_link {
+          position: absolute;
+          display: block;
+          width: 260px;
+          height: 30px;
+          padding: 5px 20px;
+          color: white;
+          text-decoration: none;
+          outline: none; }
+        .settings-bubble .browser ul li a.extend_link {
+          position: absolute;
+          right: 0;
+          width: 40px;
+          height: 100%;
+          background: url(../images/browser_arrow.png) no-repeat 50%;
+          outline: none; }

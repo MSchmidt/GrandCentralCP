@@ -4,6 +4,8 @@ class User < ActiveRecord::Base
   has_many :domains, :dependent => :destroy
   has_many :databases, :dependent => :destroy
   
+  attr_accessor :folder_structure
+  
   before_validation :set_default_password_if_needed, :set_default_userfolder_if_needed
   after_create :add_unix_user
   after_update :mod_unix_user
@@ -59,6 +61,22 @@ class User < ActiveRecord::Base
   
   def userpath
     File.join(WWW_DIR,self.userfolder)
+  end
+  
+  def folder_structure
+    folders = Hash.new{ |h,k| h[k] = Hash.new &h.default_proc }
+    
+    Dir.glob(File.join(self.userpath, "**", "**")) do |path|
+      if File.directory?(path)
+        sub = folders
+        path.gsub!(File.join(WWW_DIR, ''), '') # uses File.join to append final /
+        path.split('/').each do |dir|
+          sub = sub[dir]
+        end
+      end
+    end
+    
+    return folders
   end
   
   

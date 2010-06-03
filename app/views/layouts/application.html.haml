@@ -5,7 +5,12 @@
     %title= "GrandCentralCP: #{controller.controller_name} - #{controller.action_name}"
     = stylesheet_link_tag 'blueprint/screen'
     = stylesheet_link_tag 'application'
+    = stylesheet_link_tag 'workbench'
+    = javascript_include_tag 'mootools-1.2.4-core'
+    = javascript_include_tag 'mootools-1.2.4.4-more'
     = javascript_include_tag 'application'
+    = javascript_include_tag 'workbench'
+    = javascript_include_tag 'MooFibro'
   %body
     #header
       %ul#top_navigation
@@ -23,3 +28,12 @@
         .success= flash[:notice]   
     
       = yield
+
+    #infobar
+      #infobar-content
+        #infobar-collapsed
+          = "Some domains got changed. See what GCCP will do."
+        #infobar-expanded
+        #infobar-buttons
+          %button#undo_button Undo
+          %button#save_button Save

@@ -63,7 +63,6 @@ class DomainsController < ApplicationController
     
     respond_to do |format|
       if @domain.save
-        #Delayed::Job.enqueue Domain.find(@domain.id)
         flash[:notice] = 'Domain was successfully created.'
         format.html { redirect_to(@domain) }
         format.xml  { render :xml => @domain, :status => :created, :location => @domain }
@@ -86,7 +85,6 @@ class DomainsController < ApplicationController
 
     respond_to do |format|
       if @domain.update_attributes(params[:domain])
-        #Delayed::Job.enqueue Domain.find(@domain.id)
         flash[:notice] = 'Domain was successfully updated.'
         format.html { redirect_to(@domain) }
         format.xml  { head :ok }
@@ -102,8 +100,12 @@ class DomainsController < ApplicationController
   # DELETE /domains/1.xml
   # ADMIN only
   def destroy
-    @domain = Domain.find(params[:id])
-    @domain.destroy
+    if is_admin?
+      @domain = Domain.find(params[:id])
+    else
+      @domain = current_user.domains.find(params[:id])
+    end
+    @domain.send_later(:destroy_config)
     flash[:notice] = 'Domain was successfully destroyed.'
 
     respond_to do |format|
@@ -111,5 +113,20 @@ class DomainsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  def change_preview
+    if is_admin?
+      domain = Domain.find(params[:id])
+    else
+      domain = current_user.domains.find(params[:id])
+    end
+    domain.mount_point = params[:domain_path]
+    vhost = { :vhost => domain.generate_vhost.gsub!(/\n/, '<br />') }
+    
+    respond_to do |format|
+      format.html { redirect_to(user_root_url) }
+      format.js { render :json => vhost }
+      format.xml { render :xml => vhost }
+    end
+  end
 end
-
