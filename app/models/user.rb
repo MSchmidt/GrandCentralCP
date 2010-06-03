@@ -38,7 +38,7 @@ class User < ActiveRecord::Base
   def update_config(pass,old_username)
     pass = " -p " + pass unless pass.blank?
     
-    if self.username != old_username
+    if self.username_changed?
       user = "-l " + self.username + " " + old_username
       
       # Only rename user folder when user had folder similar to old username before
@@ -101,7 +101,7 @@ class User < ActiveRecord::Base
   
   def mod_unix_user
     ConnectedDatabase::change_user_password(:name => self.username, :password => self.dbpassword) if self.dbpassword_changed?
-    ConnectedDatabase::rename_user(:name => self.username, :oldname => old_username) if self.username != old_username
+    ConnectedDatabase::rename_user(:name => self.username, :oldname => self.old_username) if self.username_changed?
     self.send_later(:update_config, self.password, self.old_username)
   end
 

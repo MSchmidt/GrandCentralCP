@@ -9,7 +9,7 @@ window.addEvent('domready', function(){
 			container: 'workbench',
 
 			onDrop: function(element, droppable, event){
-				$('infobar').fade('in');
+				register_change(i);
 			}
 		});
 		
@@ -37,6 +37,7 @@ window.addEvent('domready', function(){
 			});
 			
 			i.getElement('.domain_path').set('html', i.retrieve('domain_path'));
+			i.getElement('.domain_changed').set('html', '0');
 		});
 		$('infobar').fade('out');
 		$('infobar-expanded').set('html', '');
@@ -45,7 +46,19 @@ window.addEvent('domready', function(){
 	
 	// SAVE
 	$('save_button').addEvent('click', function(event){
-		// do all the saving action here
+		$$('.domain').each(function(i){
+			if (i.getElement('.domain_changed').get('html') == '1') {
+				var request = new Request({
+					url: "/domains/" + i.getElement('.domain_id').get('html') + '.xml',
+					onSuccess: function(response) {
+						console.log('updated');
+					}
+				}).post({
+					'_method': 'put',
+					'domain[mount_point]': i.getElement('.domain_path').get('html')
+				});
+			}
+		});
 		event.stop();
 	});
 	
@@ -66,7 +79,6 @@ window.addEvent('domready', function(){
 						onSelect: function(selected){
 							this.target.highlight();
 							change_domain_path(parent_element, selected);
-							$('infobar').fade('in');
 						},
 						onExtend: function(extended, path, direction){
 							//console.log('extend: ' + extended + ' - ' + path + ' | ' + direction);
@@ -80,6 +92,8 @@ window.addEvent('domready', function(){
 	}
 	
 	function change_domain_path(element, new_path){
+		register_change(element);
+		
 		var request = new Request.JSON({
 			url: "/domains/" + element.getElement('.domain_id').get('html') + "/change_preview.js",
 			onSuccess: function(response){
@@ -88,5 +102,10 @@ window.addEvent('domready', function(){
 		}).get({
 			'domain_path': new_path
 		});
+	}
+	
+	function register_change(element) {
+		element.getElement('.domain_changed').set('html', '1');
+		$('infobar').fade('in');
 	}
 });
