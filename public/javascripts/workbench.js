@@ -19,6 +19,14 @@ window.addEvent('domready', function(){
 			}
 		});
 		
+		// bring clicked to top
+		i.addEvent('click', function(event){
+			$$('.domain').each(function(d_to_send_back){
+				d_to_send_back.setStyle('z-index', 0);
+			});
+			i.setStyle('z-index', 10);
+		});
+		
 		i.getElement('.domain_edit').addEvent('click', function(event){
 			open_preferences(i);
 			event.stop();
@@ -33,7 +41,7 @@ window.addEvent('domready', function(){
 			settings_bubble.fade('hide').inject(parent_element).fade('in');
 			
 			var jsonRequest = new Request({
-				url: "/users/folder_structure.xml",
+				url: "/users/" + parent_element.getElement('.domain_owner').get('html') + "/folder_structure.xml",
 				onSuccess: function(response){
 					var fibro = new MooFibro(parent_element.getElement('span.domain_path'), {
 						container: settings_bubble.getElement('.browser'),

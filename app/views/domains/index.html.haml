@@ -15,6 +15,7 @@
           = link_to 'Destroy', domain, :confirm => 'Are you sure?', :method => :delete
           %span.domain_path= h(domain.mount_point)
           = link_to '✎', '#edit', :class => 'domain_edit'
+        %span.domain_owner.hidden= domain.user_id
 
 %br/
 

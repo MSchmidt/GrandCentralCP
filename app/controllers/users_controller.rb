@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   
-  before_filter :is_admin, :except => [:change_password, :update_password, :update_db_password]
+  before_filter :is_admin, :except => [:change_password, :update_password, :update_db_password, :folder_structure]
   
   def index
     @users = User.all
@@ -117,10 +117,16 @@ class UsersController < ApplicationController
   end
   
   def folder_structure
-    folders = User.get_user_www_dir_structure
+    if params[:id] == current_user.id
+      @user = current_user
+    elsif is_admin?
+      @user = User.find(params[:id])
+    end
+    
+    folders = @user.folder_structure
     
     respond_to do |format|
-      format.html { redirect_to(domains_url) }
+      format.html { redirect_to(user_root_url) }
       format.js { render :json => folders }
       format.xml do
         xml = Builder::XmlMarkup.new(:indent => 2)
