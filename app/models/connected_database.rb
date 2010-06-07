@@ -11,7 +11,6 @@ class ConnectedDatabase < ActiveRecord::Base
     unless options[:name].blank? && options[:password].blank?
       res = connection.execute("SELECT COUNT(*) FROM user WHERE User = '#{options[:name]}';")
       row = res.fetch_row
-      puts "xxxx" + row[0].to_s
       if row[0].to_i < 1
         connection.execute "CREATE USER '#{options[:name]}'@'localhost' IDENTIFIED BY '#{options[:password]}';"
       end

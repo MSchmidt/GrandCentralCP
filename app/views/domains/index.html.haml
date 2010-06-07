@@ -2,8 +2,8 @@
 
 #workbench
   #settings_bubble_blueprint.settings-bubble{:class => 'hidden'}
-    .domain-settings
-      hullo
+    .domain-settings      
+      
     .browser
   - @domains.each do |domain|
     - position_style = domain.workbench_x && domain.workbench_x ? "top: #{domain.workbench_y}px; left: #{domain.workbench_x}px" : ""
