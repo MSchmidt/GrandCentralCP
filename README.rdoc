@@ -2,9 +2,9 @@
 
 GrandCentralCP is a light web server control panel written in Ruby on Rails
 
-== v1 Preview Version
+== v1 Version
 
-This is a preview version of GCCP and is still under heavy development.
+This is a version 1 of GCCP and is still under development.
 It is NOT recommended for production use!
 
 == Features
@@ -13,17 +13,15 @@ Features included in this version:
 
 * automatic configuration of Apache2 VHosts
 * automatic configuration of MySQL Users Databases
-* simple user management
+* simple user management (normal and FTP users)
+* view of a users web folders
 
-== Planned Features for first stable release
+== Planned Features for next release
 
-This is an very early version of GCCP. Later versions will
+This is an early version of GCCP. Later versions will
 
 * have an installer
-* configure FTP users
 * allow subdomains
-* display a users web folders
-* look prettier
 * have an feature rich user interface
 
 == Take GCCP preview for a spin
@@ -31,9 +29,30 @@ This is an very early version of GCCP. Later versions will
 As of now GCCP is written for Debian and Ubuntu only.
 
 * prepare your server
-	apt-get install apache2 mysql-server mysql-client ruby
+	apt-get install git-core apache2 mysql-server mysql-client ruby1.8-dev rubygems libxml2-dev libxslt-ruby libsqlite3-dev libopenssl-ruby rake mkpasswd
+	gem install rubygems-update
+	ruby /var/lib/gems/1.8/gems/rubygems-update-*/setup.rb
+	gem install bundler
+	git clone <source see above>
+	cd GrandCentralCP
+	bundle install
+	
+	cp config/database.yml-dist config/database.yml
+	cp config/gccp.yml-dist config/gccp.yml
+	cp config/initializers/session_store.rb-dist config/initializers/session_store.rb
+  
+  groupadd ftp-user
+  rake db:migrate
+  rake db:seed  (creates firstadmin, defined in gccp.yml)
+  
+* start GCCP
+  cd GrandCentralCP
+  script/server
+open a new terminal
+  rake jobs:work
 
-...detailed instructions coming soon. Please be aware of the alpha character of the software.
+	
+
 Do only install GCCP on test systems and only if you know what you do!
 
 == Basic Usage
