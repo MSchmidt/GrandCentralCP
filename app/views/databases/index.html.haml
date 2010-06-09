@@ -4,12 +4,14 @@
   %tr
     %th Name
     %th= 'User' if is_admin?
+    %th Username
     %th Password
 
   - @databases.each do |database|
     %tr
       %td=h database.name
       %td=h database.user.email if is_admin?
+      %td=h database.user.username
       %td=h database.user.dbpassword
       %td= link_to 'Show', database
       %td= link_to 'Edit', edit_database_path(database)
