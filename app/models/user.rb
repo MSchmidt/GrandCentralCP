@@ -92,7 +92,7 @@ class User < ActiveRecord::Base
   end
   
   def set_default_userfolder_if_needed
-    if self.userfolder
+    if self.userfolder && !self.admin
       self.userfolder = self.username
     else
       self.userfolder = ""
