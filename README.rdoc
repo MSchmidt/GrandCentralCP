@@ -40,14 +40,14 @@ As of now GCCP is written for Debian and Ubuntu only.
 	cp config/database.yml-dist config/database.yml
 	cp config/gccp.yml-dist config/gccp.yml
 	cp config/initializers/session_store.rb-dist config/initializers/session_store.rb
-  
-  groupadd ftp-user
-  rake db:migrate
-  rake db:seed  (creates firstadmin, defined in gccp.yml)
+	
+	groupadd ftp-user
+	rake db:migrate
+	rake db:seed  (creates firstadmin, defined in gccp.yml)
   
 * start GCCP
-  cd GrandCentralCP
-  script/server
+	cd GrandCentralCP
+	script/server
 open a new terminal
   rake jobs:work
 
