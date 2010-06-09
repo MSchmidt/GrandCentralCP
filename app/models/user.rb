@@ -29,6 +29,7 @@ class User < ActiveRecord::Base
     #add linux user
     #group ftp-user must exist
     Dir.mkdir(self.userpath) unless File.exists?(self.userpath)
+    pass = %x[mkpasswd #{pass}].chop!
     system("useradd -g ftp-user -s /bin/false -d " + self.userpath + " -p #{pass} #{self.username}")
     
     #permission
@@ -36,7 +37,10 @@ class User < ActiveRecord::Base
   end
 
   def update_config(pass,old_username)
-    pass = " -p " + pass unless pass.blank?
+    unless pass.blank?
+      pass = %x[mkpasswd #{pass}].chop!
+      pass = " -p " + pass 
+    end
     
     if self.username_changed?
       user = "-l " + self.username + " " + old_username
